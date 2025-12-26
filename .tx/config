@@ -1,0 +1,7 @@
+[main]
+host = https://www.transifex.com
+
+[o:hashium:p:hashium:r:qt-translation-030x]
+file_filter = src/qt/locale/hashium_<lang>.xlf
+source_file = src/qt/locale/hashium_en.xlf
+source_lang = en

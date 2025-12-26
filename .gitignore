@@ -1,0 +1,85 @@
+# Build output
+build/
+out/
+*.o
+*.a
+*.so
+*.dylib
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+*.egg-info/
+.eggs/
+
+# Node.js
+node_modules/
+dist/
+.next/
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# Rust
+target/
+Cargo.lock
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Qt
+*.pro.user
+moc_*.cpp
+ui_*.h
+
+# Test artifacts
+test/cache/
+test/tmp/
+*.lcov
+*.gcov
+*.gcda
+*.gcno
+
+# Sensitive files
+*.pem
+*.key
+*.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs/
+
+# Misc
+*.bak
+*.tmp
+*.temp
+*.orig
+*.rej
+
+# Hashium specific
+regtest/
+signet/
+testnet3/
+testnet4/
+*.wallet
+wallet.dat

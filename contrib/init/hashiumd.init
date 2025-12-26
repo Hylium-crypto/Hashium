@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+#
+#  d The  core server.
+#
+#
+# chkconfig: 345 80 20
+# description: d
+# processname: d
+#
+
+# Source function library.
+. /etc/init.d/functions
+
+# you can override defaults in /etc/sysconfig/d, see below
+if [ -f /etc/sysconfig/d ]; then
+        . /etc/sysconfig/d
+fi
+
+RETVAL=0
+
+prog=d
+# you can override the lockfile via D_LOCKFILE in /etc/sysconfig/d
+lockfile=${D_LOCKFILE-/var/lock/subsys/d}
+
+# d defaults to /usr/bin/d, override with D_BIN
+d=${D_BIN-/usr/bin/d}
+
+# d opts default to -disablewallet, override with D_OPTS
+d_opts=${D_OPTS--disablewallet}
+
+start() {
+    echo -n $"Starting $prog: "
+    daemon $DAEMONOPTS $d $d_opts
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && touch $lockfile
+    return $RETVAL
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc $prog -t600
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && rm -f $lockfile
+    return $RETVAL
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status $prog
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: service $prog {start|stop|status|restart}"
+        exit 1
+        ;;
+esac

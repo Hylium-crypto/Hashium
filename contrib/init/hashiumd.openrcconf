@@ -1,0 +1,33 @@
+# /etc/conf.d/d: config file for /etc/init.d/d
+
+# Config file location
+#D_CONFIGFILE="/etc//.conf"
+
+# What directory to write pidfile to?  (created and owned by $D_USER)
+#D_PIDDIR="/var/run/d"
+
+# What filename to give the pidfile
+#D_PIDFILE="${D_PIDDIR}/d.pid"
+
+# Where to write d data (be mindful that the blockchain is large)
+#D_DATADIR="/var/lib/d"
+
+# User and group to own d process
+#D_USER=""
+#D_GROUP=""
+
+# Path to d executable
+#D_BIN="/usr/bin/d"
+
+# Nice value to run d under
+#D_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+#D_OPTS=""
+
+# The timeout in seconds OpenRC will wait for d to terminate
+# after a SIGTERM has been raised.
+# Note that this will be mapped as argument to start-stop-daemon's
+# '--retry' option, which means you can specify a retry schedule
+# here. For more information see man 8 start-stop-daemon.
+D_SIGTERM_TIMEOUT=600

@@ -1,0 +1,31 @@
+# Seeds
+
+Utility to generate the seeds.txt list that is compiled into the client
+(see [src/chainparamsseeds.h](/src/chainparamsseeds.h) and other utilities in [contrib/seeds](/contrib/seeds)).
+
+Be sure to update `PATTERN_AGENT` in `makeseeds.py` to include the current version,
+and remove old versions as necessary (at a minimum when SeedsServiceFlags()
+changes its default return value, as those are the services which seeds are added
+to addrman with).
+
+Update `MIN_BLOCKS` in  `makeseeds.py` and the `-m`/`--minblocks` arguments below, as needed.
+
+Hashium is a fork of Bitcoin Core, so the seed list must be generated from Hashium's
+own crawlers and DNS seeds. The commands below use placeholder domains; replace
+them with real Hashium seed endpoints before releasing.
+
+Run the following commands from the `/contrib/seeds` directory:
+
+```
+curl https://seed1.hashium.org/seeds.txt.gz | gzip -dc > seeds_main.txt
+curl https://seed2.hashium.org/seeds.txt.gz | gzip -dc >> seeds_main.txt
+curl https://seed.signet.hashium.org/seeds.txt.gz | gzip -dc > seeds_signet.txt
+curl https://seed.testnet.hashium.org/seeds.txt.gz | gzip -dc > seeds_test.txt
+curl https://seed.testnet4.hashium.org/seeds.txt.gz | gzip -dc > seeds_testnet4.txt
+curl https://raw.githubusercontent.com/asmap/asmap-data/main/latest_asmap.dat > asmap-filled.dat
+python3 makeseeds.py -a asmap-filled.dat -s seeds_main.txt > nodes_main.txt
+python3 makeseeds.py -a asmap-filled.dat -s seeds_signet.txt -m 266000 > nodes_signet.txt
+python3 makeseeds.py -a asmap-filled.dat -s seeds_test.txt -m 4650000 > nodes_test.txt
+python3 makeseeds.py -a asmap-filled.dat -s seeds_testnet4.txt -m 100000 > nodes_testnet4.txt
+python3 generate-seeds.py . > ../../src/chainparamsseeds.h
+```

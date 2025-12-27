@@ -83,3 +83,4 @@ testnet3/
 testnet4/
 *.wallet
 wallet.dat
+.env

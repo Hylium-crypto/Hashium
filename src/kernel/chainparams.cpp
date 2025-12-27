@@ -185,9 +185,10 @@ public:
         m_assumed_blockchain_size = 1; // New chain, tiny initial footprint
         m_assumed_chain_state_size = 1;
 
-        const char* pszTimestamp = "Hashium 2025-12-16: Verify, don't trust.";
+        const char* pszTimestamp = "Hashium 2025-12-27: Security, Scarcity, Store of Value.";
         const CScript genesisOutputScript = HashiumGenesisOutputScript();
-        genesis = CreateGenesisBlockRawScriptSig(pszTimestamp, genesisOutputScript, 1765886400, 3204028577, 0x1d00ffff, 1, 50 * COIN, true, 0);
+        // Using lower difficulty (0x207fffff) for initial launch - can be increased via soft fork
+        genesis = CreateGenesisBlockRawScriptSig(pszTimestamp, genesisOutputScript, 1735307400, 0, 0x207fffff, 1, 50 * COIN, false, 0);
         consensus.hashGenesisBlock = genesis.GetHash();
         // TODO: After computing correct genesis hash, update and re-enable assertions
         // For development/testing, print genesis info:

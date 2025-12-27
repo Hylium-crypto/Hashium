@@ -1,14 +1,40 @@
-Hashium Core integration/staging tree
-=====================================
+# Hashium
 
-Hashium Core is a renamed, forward-looking fork of Bitcoin Core. It inherits the
-Bitcoin protocol implementation and hardens it for a separate network (different
-message start bytes, ports, address prefixes, and seeds) so it will not
-cross-talk with Bitcoin nodes. Branding is Hashium; codebase heritage is Bitcoin
-Core (MIT license).
+**🔒 Security • 💎 Scarcity • 🏦 Store of Value**
 
-For an immediately usable, binary version of the Hashium Core software, see
-https://hashiumcore.org/en/download/ (**Note: Official releases not yet available - project in development**).
+[![CI](https://github.com/Hylium-crypto/Hashium/actions/workflows/ci.yml/badge.svg)](https://github.com/Hylium-crypto/Hashium/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+Hashium is a next-generation cryptocurrency built on the battle-tested Bitcoin Core codebase, 
+designed as a secure store of value with a fixed supply of **21 million coins**.
+
+## Core Principles
+
+| Principle | Description |
+|-----------|-------------|
+| 🔒 **Security** | Built on Bitcoin Core, the most scrutinized codebase in crypto |
+| 💎 **Scarcity** | Fixed supply of 21,000,000 HSM - no inflation, no pre-mine |
+| 🏦 **Store of Value** | Sound money principles: hard cap, halving schedule, PoW |
+
+## Tokenomics
+
+- **Max Supply:** 21,000,000 HSM
+- **Block Reward:** 50 HSM (halves every 210,000 blocks)
+- **Block Time:** ~10 minutes
+- **Consensus:** Proof of Work (SHA-256)
+
+## Quick Start
+
+```bash
+# Download from releases
+# https://github.com/Hylium-crypto/Hashium/releases
+
+# Start the node
+./hashiumd
+
+# Check blockchain info
+./hashium-cli getblockchaininfo
+```
 
 What is Hashium Core?
 ---------------------

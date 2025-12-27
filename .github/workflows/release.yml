@@ -20,7 +20,7 @@ jobs:
             build-essential cmake libevent-dev libboost-dev \
             libboost-filesystem-dev libboost-test-dev libsqlite3-dev \
             libminiupnpc-dev libnatpmp-dev libdb++-dev libzmq3-dev \
-            qtbase5-dev qttools5-dev-tools libqt5dbus5
+            qtbase5-dev qttools5-dev-tools libqt5dbus5 libqrencode-dev
 
       - name: Build (with GUI)
         run: |
@@ -57,7 +57,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          brew install cmake boost libevent sqlite miniupnpc libnatpmp berkeley-db@4 qt@5
+          brew install cmake boost libevent sqlite miniupnpc libnatpmp berkeley-db@4 qt@5 qrencode
 
       - name: Build (with GUI)
         run: |

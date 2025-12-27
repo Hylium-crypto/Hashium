@@ -20,7 +20,7 @@ jobs:
             build-essential cmake libevent-dev libboost-dev \
             libboost-filesystem-dev libboost-test-dev libsqlite3-dev \
             libminiupnpc-dev libnatpmp-dev libdb++-dev libzmq3-dev \
-            qtbase5-dev qttools5-dev-tools libqt5dbus5 libqrencode-dev
+            qt6-base-dev qt6-tools-dev qt6-tools-dev-tools libqrencode-dev
 
       - name: Build (CLI + GUI)
         run: |
@@ -58,20 +58,20 @@ jobs:
 
       - name: Install dependencies
         run: |
-          brew install cmake boost libevent sqlite miniupnpc libnatpmp berkeley-db@4 qt@5 qrencode
+          brew install cmake boost libevent sqlite miniupnpc libnatpmp berkeley-db@4 qt@6 qrencode
 
       - name: Build (CLI + GUI)
         run: |
-          export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"
-          export LDFLAGS="-L/opt/homebrew/opt/qt@5/lib"
-          export CPPFLAGS="-I/opt/homebrew/opt/qt@5/include"
+          export PATH="/opt/homebrew/opt/qt@6/bin:$PATH"
+          export LDFLAGS="-L/opt/homebrew/opt/qt@6/lib"
+          export CPPFLAGS="-I/opt/homebrew/opt/qt@6/include"
           cmake -B build \
             -DCMAKE_BUILD_TYPE=Release \
             -DBUILD_GUI=ON \
             -DBUILD_WALLET=ON \
             -DBUILD_TESTS=OFF \
             -DENABLE_IPC=OFF \
-            -DQt5_DIR=/opt/homebrew/opt/qt@5/lib/cmake/Qt5
+            -DQt6_DIR=/opt/homebrew/opt/qt@6/lib/cmake/Qt6
           cmake --build build -j$(sysctl -n hw.ncpu)
 
       - name: Package

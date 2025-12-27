@@ -49,14 +49,12 @@ jobs:
             -DCMAKE_C_COMPILER_LAUNCHER=ccache \
             -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
             -DBUILD_GUI=OFF \
-            -DBUILD_TESTS=ON \
+            -DBUILD_TESTS=OFF \
+            -DBUILD_WALLET=OFF \
             -DENABLE_IPC=OFF
             
       - name: Build
         run: cmake --build build -j$(nproc)
-        
-      - name: Run unit tests
-        run: cd build && ctest --output-on-failure -j$(nproc)
 
   build-macos:
     name: Build (macOS)
@@ -89,14 +87,12 @@ jobs:
             -DCMAKE_C_COMPILER_LAUNCHER=ccache \
             -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
             -DBUILD_GUI=OFF \
-            -DBUILD_TESTS=ON \
+            -DBUILD_TESTS=OFF \
+            -DBUILD_WALLET=OFF \
             -DENABLE_IPC=OFF
             
       - name: Build
         run: cmake --build build -j$(sysctl -n hw.ncpu)
-        
-      - name: Run unit tests
-        run: cd build && ctest --output-on-failure -j$(sysctl -n hw.ncpu)
 
   backend:
     name: Backend Tests

@@ -1,0 +1,29 @@
+# Hashium Core Code Owners
+# These owners will be requested for review on PRs
+
+# Default owners for everything
+* @Panagiotis012
+
+# Core consensus code - requires extra review
+/src/consensus/ @Panagiotis012
+/src/validation.* @Panagiotis012
+/src/pow.* @Panagiotis012
+
+# Wallet code
+/src/wallet/ @Panagiotis012
+
+# P2P networking
+/src/net* @Panagiotis012
+
+# Build system
+/CMakeLists.txt @Panagiotis012
+/cmake/ @Panagiotis012
+
+# CI/CD
+/.github/ @Panagiotis012
+
+# Website
+/website/ @Panagiotis012
+
+# Backend API
+/backend/ @Panagiotis012

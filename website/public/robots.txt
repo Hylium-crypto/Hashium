@@ -1,0 +1,9 @@
+# Hashium Website
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://hashium.org/sitemap.xml
+
+# Crawl-delay for politeness
+Crawl-delay: 1

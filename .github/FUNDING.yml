@@ -1,0 +1,12 @@
+# Funding - Support Hashium Development
+# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository
+
+# GitHub Sponsors
+github: [Panagiotis012]
+
+# Custom donation links
+custom:
+  - https://hashium.org/donate
+
+# Bitcoin (for irony) - Replace with Hashium address when mainnet launches
+# bitcoin: bc1q...

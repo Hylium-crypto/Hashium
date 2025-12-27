@@ -1,0 +1,24 @@
+# Security Policy
+
+# Allowed Branches
+branches:
+  protect:
+    - master
+    - main
+
+# Allowed Actions
+allowed-actions:
+  - actions/checkout@*
+  - actions/setup-node@*
+  - github/codeql-action/*
+  - hendrikmuhs/ccache-action@*
+
+# Commit Signing
+commit-signing:
+  required: false
+
+# Secrets
+secrets:
+  required:
+    - JWT_SECRET
+    - JWT_REFRESH_SECRET

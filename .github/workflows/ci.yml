@@ -1,0 +1,149 @@
+name: Hashium CI
+
+on:
+  push:
+    branches: [ master, main, develop ]
+  pull_request:
+    branches: [ master, main ]
+
+env:
+  CCACHE_SIZE: 500M
+  CI: true
+
+jobs:
+  build-linux:
+    name: Build (Linux)
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            cmake \
+            libevent-dev \
+            libboost-dev \
+            libboost-filesystem-dev \
+            libboost-test-dev \
+            libsqlite3-dev \
+            libminiupnpc-dev \
+            libnatpmp-dev \
+            libdb++-dev \
+            qtbase5-dev \
+            qttools5-dev-tools \
+            ccache
+            
+      - name: Setup ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: linux-build
+          
+      - name: Configure
+        run: |
+          cmake -B build \
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+            -DBUILD_GUI=OFF \
+            -DBUILD_TESTS=ON
+            
+      - name: Build
+        run: cmake --build build -j$(nproc)
+        
+      - name: Run unit tests
+        run: cd build && ctest --output-on-failure -j$(nproc)
+
+  build-macos:
+    name: Build (macOS)
+    runs-on: macos-13
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Install dependencies
+        run: |
+          brew install \
+            cmake \
+            boost \
+            libevent \
+            sqlite \
+            miniupnpc \
+            libnatpmp \
+            berkeley-db@4 \
+            ccache
+            
+      - name: Setup ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: macos-build
+          
+      - name: Configure
+        run: |
+          cmake -B build \
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+            -DBUILD_GUI=OFF \
+            -DBUILD_TESTS=ON
+            
+      - name: Build
+        run: cmake --build build -j$(sysctl -n hw.ncpu)
+        
+      - name: Run unit tests
+        run: cd build && ctest --output-on-failure -j$(sysctl -n hw.ncpu)
+
+  backend:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Generate Prisma client
+        run: npm run db:generate
+        
+      - name: Build
+        run: npm run build
+        
+      - name: Type check
+        run: npx tsc --noEmit
+
+  website:
+    name: Website Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: website
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: website/package-lock.json
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Lint
+        run: npm run lint
+        
+      - name: Build
+        run: npm run build

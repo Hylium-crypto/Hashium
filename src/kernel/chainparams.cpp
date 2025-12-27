@@ -187,8 +187,8 @@ public:
 
         const char* pszTimestamp = "Hashium 2025-12-27: Security, Scarcity, Store of Value.";
         const CScript genesisOutputScript = HashiumGenesisOutputScript();
-        // Using lower difficulty (0x207fffff) for initial launch - can be increased via soft fork
-        genesis = CreateGenesisBlockRawScriptSig(pszTimestamp, genesisOutputScript, 1735307400, 0, 0x207fffff, 1, 50 * COIN, false, 0);
+        // Use same genesis format as regtest which is proven to work
+        genesis = CreateGenesisBlockRawScriptSig(pszTimestamp, genesisOutputScript, 1296688602, 10, 0x207fffff, 1, 50 * COIN, false, 0);
         consensus.hashGenesisBlock = genesis.GetHash();
         // TODO: After computing correct genesis hash, update and re-enable assertions
         // For development/testing, print genesis info:

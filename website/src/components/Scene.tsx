@@ -53,22 +53,29 @@ const HashiumCrystal = () => {
     );
 };
 
+// Pre-generate particle ring positions with deterministic seeded random
+const generateRingPositions = (count: number): Float32Array => {
+    const positions = new Float32Array(count * 3);
+    const seed = 54321;
+    const seededRandom = (i: number) => {
+        const x = Math.sin(seed + i) * 10000;
+        return x - Math.floor(x);
+    };
+    for (let i = 0; i < count; i++) {
+        const angle = (i / count) * Math.PI * 2;
+        const radius = 3.5 + seededRandom(i) * 0.3;
+        positions[i * 3] = Math.cos(angle) * radius;
+        positions[i * 3 + 1] = (seededRandom(i + count) - 0.5) * 0.2;
+        positions[i * 3 + 2] = Math.sin(angle) * radius;
+    }
+    return positions;
+};
+
 // Ambient particle ring
 const ParticleRing = () => {
     const pointsRef = useRef<THREE.Points>(null);
 
-    const particles = useMemo(() => {
-        const count = 400;
-        const positions = new Float32Array(count * 3);
-        for (let i = 0; i < count; i++) {
-            const angle = (i / count) * Math.PI * 2;
-            const radius = 3.5 + Math.random() * 0.3;
-            positions[i * 3] = Math.cos(angle) * radius;
-            positions[i * 3 + 1] = (Math.random() - 0.5) * 0.2;
-            positions[i * 3 + 2] = Math.sin(angle) * radius;
-        }
-        return positions;
-    }, []);
+    const particles = useMemo(() => generateRingPositions(400), []);
 
     useFrame(({ clock }) => {
         if (pointsRef.current) {

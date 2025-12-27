@@ -53,7 +53,7 @@ const HologramModel = () => {
     if (error) {
         return (
             <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
-                <mesh ref={meshRef as any}>
+                <mesh ref={meshRef as unknown as React.RefObject<THREE.Mesh>}>
                     <icosahedronGeometry args={[3, 2]} />
                     <meshStandardMaterial color="#00d4ff" emissive="#0891b2" emissiveIntensity={0.15} wireframe />
                 </mesh>

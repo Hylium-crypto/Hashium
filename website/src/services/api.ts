@@ -32,7 +32,7 @@ async function fetchApi<T>(endpoint: string, options?: RequestInit): Promise<Api
         }
 
         return { data };
-    } catch (error) {
+    } catch (_error) {
         return { error: 'Network error' };
     }
 }

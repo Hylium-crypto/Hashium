@@ -4,28 +4,35 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Points, PointMaterial } from '@react-three/drei';
 import * as THREE from 'three';
 
-const ParticleField = (props: any) => {
+interface ParticleFieldProps {
+    count?: number;
+}
+
+// Pre-generate positions outside of component to avoid impure function calls during render
+const generatePositions = (count: number): Float32Array => {
+    const positions = new Float32Array(count * 3);
+    // Use a seeded approach for deterministic results
+    const seed = 12345;
+    const seededRandom = (i: number) => {
+        const x = Math.sin(seed + i) * 10000;
+        return x - Math.floor(x);
+    };
+    for (let i = 0; i < count; i++) {
+        const r = 20 * Math.cbrt(seededRandom(i * 3));
+        const theta = seededRandom(i * 3 + 1) * 2 * Math.PI;
+        const phi = Math.acos(2 * seededRandom(i * 3 + 2) - 1);
+
+        positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+        positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+        positions[i * 3 + 2] = r * Math.cos(phi);
+    }
+    return positions;
+};
+
+const ParticleField: React.FC<ParticleFieldProps> = ({ count = 2000 }) => {
     const ref = useRef<THREE.Points>(null);
 
-    // Generate random points in a sphere volume
-    const positions = useMemo(() => {
-        const count = 2000;
-        const positions = new Float32Array(count * 3);
-        for (let i = 0; i < count; i++) {
-            const r = 20 * Math.cbrt(Math.random());
-            const theta = Math.random() * 2 * Math.PI;
-            const phi = Math.acos(2 * Math.random() - 1);
-
-            const x = r * Math.sin(phi) * Math.cos(theta);
-            const y = r * Math.sin(phi) * Math.sin(theta);
-            const z = r * Math.cos(phi);
-
-            positions[i * 3] = x;
-            positions[i * 3 + 1] = y;
-            positions[i * 3 + 2] = z;
-        }
-        return positions;
-    }, []);
+    const positions = useMemo(() => generatePositions(count), [count]);
 
     useFrame((_state, delta) => {
         if (ref.current) {
@@ -36,7 +43,7 @@ const ParticleField = (props: any) => {
 
     return (
         <group rotation={[0, 0, Math.PI / 4]}>
-            <Points ref={ref} positions={positions} stride={3} frustumCulled={false} {...props}>
+            <Points ref={ref} positions={positions} stride={3} frustumCulled={false}>
                 <PointMaterial
                     transparent
                     color="#3b82f6"

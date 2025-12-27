@@ -186,10 +186,11 @@ public:
         m_assumed_blockchain_size = 1; // New chain, tiny initial footprint
         m_assumed_chain_state_size = 1;
 
-        // TEMPORARY: Using same genesis as regtest to diagnose issue
-        const char* pszTimestamp = "Hashium regtest: local sandbox.";
+        // Hashium Mainnet Genesis Block - December 27, 2025
+        const char* pszTimestamp = "Hashium 27/Dec/2025 Security Scarcity Store of Value";
         const CScript genesisOutputScript = HashiumGenesisOutputScript();
-        genesis = CreateGenesisBlockRawScriptSig(pszTimestamp, genesisOutputScript, 1296688602, 10, 0x207fffff, 1, 50 * COIN, false, 0);
+        // nTime: 1735307400 = Dec 27, 2025 14:30 UTC
+        genesis = CreateGenesisBlockRawScriptSig(pszTimestamp, genesisOutputScript, 1735307400, 10, 0x207fffff, 1, 50 * COIN, false, 0);
         consensus.hashGenesisBlock = genesis.GetHash();
         // TODO: After computing correct genesis hash, update and re-enable assertions
         // For development/testing, print genesis info:

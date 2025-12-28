@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-linux:
-    name: Build Linux (x86_64)
+    name: Build Linux App
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
@@ -23,7 +23,7 @@ jobs:
             qt6-base-dev qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools \
             libgl1-mesa-dev libxkbcommon-dev libqrencode-dev
 
-      - name: Build (CLI + GUI)
+      - name: Build
         run: |
           cmake -B build \
             -DCMAKE_BUILD_TYPE=Release \
@@ -33,25 +33,37 @@ jobs:
             -DENABLE_IPC=OFF
           cmake --build build -j$(nproc)
 
-      - name: Package
+      - name: Package Linux App
         run: |
-          mkdir -p hashium-${{ github.ref_name }}-linux-x86_64
-          cp build/bin/hashiumd hashium-${{ github.ref_name }}-linux-x86_64/
-          cp build/bin/hashium-cli hashium-${{ github.ref_name }}-linux-x86_64/
-          cp build/bin/hashium-qt hashium-${{ github.ref_name }}-linux-x86_64/ 2>/dev/null || true
-          cp COPYING hashium-${{ github.ref_name }}-linux-x86_64/
-          cp README.md hashium-${{ github.ref_name }}-linux-x86_64/
-          tar -czvf hashium-${{ github.ref_name }}-linux-x86_64.tar.gz hashium-${{ github.ref_name }}-linux-x86_64
+          mkdir -p "Hashium-${{ github.ref_name }}-Linux"
+          cp build/bin/hashium-qt "Hashium-${{ github.ref_name }}-Linux/Hashium" 2>/dev/null || true
+          cp build/bin/hashiumd "Hashium-${{ github.ref_name }}-Linux/"
+          cp build/bin/hashium-cli "Hashium-${{ github.ref_name }}-Linux/"
+          cp COPYING "Hashium-${{ github.ref_name }}-Linux/"
+          cp README.md "Hashium-${{ github.ref_name }}-Linux/"
+          
+          # Create desktop file for Linux
+          cat > "Hashium-${{ github.ref_name }}-Linux/Hashium.desktop" << EOF
+          [Desktop Entry]
+          Name=Hashium
+          Comment=Hashium Wallet
+          Exec=./Hashium
+          Terminal=false
+          Type=Application
+          Categories=Finance;
+          EOF
+          
+          chmod +x "Hashium-${{ github.ref_name }}-Linux/Hashium"
+          tar -czvf "Hashium-${{ github.ref_name }}-Linux.tar.gz" "Hashium-${{ github.ref_name }}-Linux"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: hashium-linux-x86_64
-          path: hashium-${{ github.ref_name }}-linux-x86_64.tar.gz
-
+          name: linux-app
+          path: Hashium-${{ github.ref_name }}-Linux.tar.gz
 
   build-macos:
-    name: Build macOS (ARM64)
+    name: Build macOS App
     runs-on: macos-14
     steps:
       - name: Checkout
@@ -59,9 +71,9 @@ jobs:
 
       - name: Install dependencies
         run: |
-          brew install cmake boost libevent sqlite miniupnpc libnatpmp berkeley-db@4 qt@6 qrencode
+          brew install cmake boost libevent sqlite miniupnpc libnatpmp berkeley-db@4 qt@6 qrencode create-dmg
 
-      - name: Build (CLI + GUI)
+      - name: Build
         run: |
           export PATH="/opt/homebrew/opt/qt@6/bin:$PATH"
           export LDFLAGS="-L/opt/homebrew/opt/qt@6/lib"
@@ -75,25 +87,139 @@ jobs:
             -DQt6_DIR=/opt/homebrew/opt/qt@6/lib/cmake/Qt6
           cmake --build build -j$(sysctl -n hw.ncpu)
 
-      - name: Package
+      - name: Create macOS App Bundle
         run: |
-          mkdir -p hashium-${{ github.ref_name }}-macos-arm64
-          cp build/bin/hashiumd hashium-${{ github.ref_name }}-macos-arm64/
-          cp build/bin/hashium-cli hashium-${{ github.ref_name }}-macos-arm64/
-          cp build/bin/hashium-qt hashium-${{ github.ref_name }}-macos-arm64/ 2>/dev/null || true
-          cp COPYING hashium-${{ github.ref_name }}-macos-arm64/
-          cp README.md hashium-${{ github.ref_name }}-macos-arm64/
-          tar -czvf hashium-${{ github.ref_name }}-macos-arm64.tar.gz hashium-${{ github.ref_name }}-macos-arm64
+          export PATH="/opt/homebrew/opt/qt@6/bin:$PATH"
+          
+          # Create app bundle structure
+          mkdir -p Hashium.app/Contents/MacOS
+          mkdir -p Hashium.app/Contents/Resources
+          
+          # Copy executable
+          cp build/bin/hashium-qt Hashium.app/Contents/MacOS/Hashium
+          
+          # Create Info.plist
+          cat > Hashium.app/Contents/Info.plist << EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+              <key>CFBundleExecutable</key>
+              <string>Hashium</string>
+              <key>CFBundleIconFile</key>
+              <string>hashium</string>
+              <key>CFBundleIdentifier</key>
+              <string>org.hashium.Hashium</string>
+              <key>CFBundleName</key>
+              <string>Hashium</string>
+              <key>CFBundlePackageType</key>
+              <string>APPL</string>
+              <key>CFBundleShortVersionString</key>
+              <string>${{ github.ref_name }}</string>
+              <key>CFBundleVersion</key>
+              <string>${{ github.ref_name }}</string>
+              <key>LSMinimumSystemVersion</key>
+              <string>11.0</string>
+              <key>NSHighResolutionCapable</key>
+              <true/>
+          </dict>
+          </plist>
+          EOF
+          
+          # Copy icon
+          cp src/qt/res/icons/hashium.icns Hashium.app/Contents/Resources/ || true
+          
+          # Use macdeployqt to bundle Qt frameworks
+          macdeployqt Hashium.app -always-overwrite || true
+          
+          # Create DMG
+          create-dmg \
+            --volname "Hashium" \
+            --window-pos 200 120 \
+            --window-size 600 400 \
+            --icon-size 100 \
+            --icon "Hashium.app" 150 185 \
+            --app-drop-link 450 185 \
+            "Hashium-${{ github.ref_name }}-macOS.dmg" \
+            "Hashium.app" || true
+          
+          # Fallback to zip if DMG fails
+          if [ ! -f "Hashium-${{ github.ref_name }}-macOS.dmg" ]; then
+            zip -r "Hashium-${{ github.ref_name }}-macOS.zip" Hashium.app
+          fi
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: hashium-macos-arm64
-          path: hashium-${{ github.ref_name }}-macos-arm64.tar.gz
+          name: macos-app
+          path: |
+            Hashium-${{ github.ref_name }}-macOS.dmg
+            Hashium-${{ github.ref_name }}-macOS.zip
+
+  build-windows:
+    name: Build Windows App
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup MSVC
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.6.0'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_msvc2019_64'
+
+      - name: Install vcpkg dependencies
+        run: |
+          vcpkg install boost-filesystem:x64-windows
+          vcpkg install libevent:x64-windows
+          vcpkg install sqlite3:x64-windows
+          vcpkg install berkeleydb:x64-windows
+
+      - name: Build
+        run: |
+          cmake -B build -G "Visual Studio 17 2022" -A x64 `
+            -DCMAKE_BUILD_TYPE=Release `
+            -DBUILD_GUI=ON `
+            -DBUILD_WALLET=ON `
+            -DBUILD_TESTS=OFF `
+            -DENABLE_IPC=OFF `
+            -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
+          cmake --build build --config Release
+
+      - name: Package Windows App
+        run: |
+          mkdir "Hashium-${{ github.ref_name }}-Windows"
+          
+          # Copy executables
+          Copy-Item "build\bin\Release\hashium-qt.exe" "Hashium-${{ github.ref_name }}-Windows\Hashium.exe" -ErrorAction SilentlyContinue
+          Copy-Item "build\bin\Release\hashiumd.exe" "Hashium-${{ github.ref_name }}-Windows\" -ErrorAction SilentlyContinue
+          Copy-Item "build\bin\Release\hashium-cli.exe" "Hashium-${{ github.ref_name }}-Windows\" -ErrorAction SilentlyContinue
+          
+          # Deploy Qt DLLs
+          windeployqt "Hashium-${{ github.ref_name }}-Windows\Hashium.exe"
+          
+          # Copy docs
+          Copy-Item "COPYING" "Hashium-${{ github.ref_name }}-Windows\"
+          Copy-Item "README.md" "Hashium-${{ github.ref_name }}-Windows\"
+          
+          # Create zip
+          Compress-Archive -Path "Hashium-${{ github.ref_name }}-Windows" -DestinationPath "Hashium-${{ github.ref_name }}-Windows.zip"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-app
+          path: Hashium-${{ github.ref_name }}-Windows.zip
 
   create-release:
     name: Create Release
-    needs: [build-linux, build-macos]
+    needs: [build-linux, build-macos, build-windows]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -101,15 +227,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Download artifacts
+      - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
           path: artifacts
 
+      - name: List artifacts
+        run: find artifacts -type f
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          files: artifacts/**/*.tar.gz
+          files: |
+            artifacts/**/*.dmg
+            artifacts/**/*.zip
+            artifacts/**/*.tar.gz
           generate_release_notes: true
           body: |
             # Hashium ${{ github.ref_name }}
@@ -120,33 +252,20 @@ jobs:
             
             ## 📥 Downloads
             
-            | Platform | Download |
-            |----------|----------|
-            | **macOS** (Apple Silicon M1/M2/M3) | `hashium-${{ github.ref_name }}-macos-arm64.tar.gz` |
-            | **Linux** (x86_64) | `hashium-${{ github.ref_name }}-linux-x86_64.tar.gz` |
-            
-            ### What's Inside
-            - `hashium-qt` - **GUI Wallet** (Desktop App) 🖥️
-            - `hashiumd` - Node daemon (runs in background)
-            - `hashium-cli` - Command line wallet
+            | Platform | Download | How to Install |
+            |----------|----------|----------------|
+            | **🍎 macOS** | `Hashium-${{ github.ref_name }}-macOS.dmg` | Double-click, drag to Applications |
+            | **🪟 Windows** | `Hashium-${{ github.ref_name }}-Windows.zip` | Extract, run `Hashium.exe` |
+            | **🐧 Linux** | `Hashium-${{ github.ref_name }}-Linux.tar.gz` | Extract, run `./Hashium` |
             
             ---
             
             ## 🚀 Quick Start
             
-            ### GUI Wallet (Recommended)
-            ```bash
-            tar -xzf hashium-*.tar.gz
-            cd hashium-*
-            ./hashium-qt
-            ```
-            
-            ### Command Line
-            ```bash
-            ./hashiumd -daemon
-            ./hashium-cli getblockchaininfo
-            ./hashium-cli getnewaddress
-            ```
+            1. Download the file for your platform
+            2. **macOS**: Open `.dmg`, drag Hashium to Applications
+            3. **Windows**: Extract `.zip`, double-click `Hashium.exe`
+            4. **Linux**: Extract `.tar.gz`, run `./Hashium`
             
             ---
             
@@ -154,6 +273,6 @@ jobs:
             - **Max Supply:** 21,000,000 HSM
             - **Block Reward:** 50 HSM
             - **Halving:** Every 210,000 blocks
-            - **Consensus:** Proof of Work (SHA-256)
+            - **Smallest Unit:** 1 hashi = 0.00000001 HSM
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

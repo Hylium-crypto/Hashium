@@ -87,35 +87,93 @@ jobs:
             -DQt6_DIR=/opt/homebrew/opt/qt@6/lib/cmake/Qt6
           cmake --build build -j$(sysctl -n hw.ncpu)
 
-      - name: Package macOS App
+      - name: Create macOS App Bundle
         run: |
-          mkdir -p "Hashium-${{ github.ref_name }}-macOS"
+          export PATH="/opt/homebrew/opt/qt@6/bin:$PATH"
           
-          # Copy all binaries
-          cp build/bin/hashium-qt "Hashium-${{ github.ref_name }}-macOS/Hashium-Qt" 2>/dev/null || true
-          cp build/bin/hashiumd "Hashium-${{ github.ref_name }}-macOS/"
-          cp build/bin/hashium-cli "Hashium-${{ github.ref_name }}-macOS/"
+          # Create proper app bundle structure
+          APP_NAME="Hashium.app"
+          mkdir -p "$APP_NAME/Contents/MacOS"
+          mkdir -p "$APP_NAME/Contents/Resources"
+          mkdir -p "$APP_NAME/Contents/Frameworks"
           
-          # Copy docs
-          cp COPYING "Hashium-${{ github.ref_name }}-macOS/"
-          cp README.md "Hashium-${{ github.ref_name }}-macOS/"
+          # Copy main executable
+          cp build/bin/hashium-qt "$APP_NAME/Contents/MacOS/Hashium"
+          chmod +x "$APP_NAME/Contents/MacOS/Hashium"
           
-          # Create launch script for easier use
-          cat > "Hashium-${{ github.ref_name }}-macOS/Start-Hashium.command" << 'EOF'
-          #!/bin/bash
-          cd "$(dirname "$0")"
-          ./Hashium-Qt
-          EOF
-          chmod +x "Hashium-${{ github.ref_name }}-macOS/Start-Hashium.command"
+          # Copy CLI tools to bundle
+          cp build/bin/hashiumd "$APP_NAME/Contents/MacOS/"
+          cp build/bin/hashium-cli "$APP_NAME/Contents/MacOS/"
           
-          # Create tar.gz
-          tar -czvf "Hashium-${{ github.ref_name }}-macOS.tar.gz" "Hashium-${{ github.ref_name }}-macOS"
+          # Create Info.plist (proper format without leading spaces)
+          cat > "$APP_NAME/Contents/Info.plist" << 'PLIST'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>CFBundleExecutable</key>
+            <string>Hashium</string>
+            <key>CFBundleIconFile</key>
+            <string>hashium.icns</string>
+            <key>CFBundleIdentifier</key>
+            <string>org.hashium.wallet</string>
+            <key>CFBundleName</key>
+            <string>Hashium</string>
+            <key>CFBundleDisplayName</key>
+            <string>Hashium Wallet</string>
+            <key>CFBundlePackageType</key>
+            <string>APPL</string>
+            <key>CFBundleShortVersionString</key>
+            <string>1.4</string>
+            <key>CFBundleVersion</key>
+            <string>1</string>
+            <key>LSMinimumSystemVersion</key>
+            <string>11.0</string>
+            <key>NSHighResolutionCapable</key>
+            <true/>
+            <key>NSSupportsAutomaticGraphicsSwitching</key>
+            <true/>
+          </dict>
+          </plist>
+          PLIST
+          
+          # Copy icon
+          cp src/qt/res/icons/hashium.icns "$APP_NAME/Contents/Resources/" 2>/dev/null || echo "No icon found"
+          
+          # Run macdeployqt to bundle Qt frameworks
+          echo "Running macdeployqt..."
+          macdeployqt "$APP_NAME" -verbose=2
+          
+          # Verify app bundle
+          echo "App bundle contents:"
+          ls -la "$APP_NAME/Contents/MacOS/"
+          ls -la "$APP_NAME/Contents/Frameworks/" 2>/dev/null || echo "No Frameworks yet"
+          
+      - name: Create DMG
+        run: |
+          # Create DMG with create-dmg
+          create-dmg \
+            --volname "Hashium Wallet" \
+            --volicon "src/qt/res/icons/hashium.icns" \
+            --window-pos 200 120 \
+            --window-size 600 400 \
+            --icon-size 100 \
+            --icon "Hashium.app" 150 185 \
+            --hide-extension "Hashium.app" \
+            --app-drop-link 450 185 \
+            "Hashium-${{ github.ref_name }}-macOS.dmg" \
+            "Hashium.app" || {
+              echo "create-dmg failed, creating zip instead"
+              zip -r "Hashium-${{ github.ref_name }}-macOS.zip" Hashium.app
+            }
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: macos-app
-          path: Hashium-${{ github.ref_name }}-macOS.tar.gz
+          path: |
+            Hashium-${{ github.ref_name }}-macOS.dmg
+            Hashium-${{ github.ref_name }}-macOS.zip
 
   # Windows build disabled temporarily - complex vcpkg dependency issues
   # Will be added in future release
@@ -161,7 +219,7 @@ jobs:
             
             | Platform | Download | How to Install |
             |----------|----------|----------------|
-            | **🍎 macOS** | `Hashium-${{ github.ref_name }}-macOS.tar.gz` | Extract, double-click `Start-Hashium.command` |
+            | **🍎 macOS** | `Hashium-${{ github.ref_name }}-macOS.dmg` | Open DMG, drag to Applications |
             | **🐧 Linux** | `Hashium-${{ github.ref_name }}-Linux.tar.gz` | Extract, run `./Hashium` |
             
             > 🪟 Windows build coming soon!
@@ -171,9 +229,8 @@ jobs:
             ## 🚀 Quick Start
             
             1. Download the file for your platform
-            2. Extract the `.tar.gz` file
-            3. **macOS**: Double-click `Start-Hashium.command` or run `./Hashium-Qt` in terminal
-            4. **Linux**: Run `./Hashium`
+            2. **macOS**: Open `.dmg`, drag Hashium to Applications, launch from Launchpad
+            3. **Linux**: Extract `.tar.gz`, run `./Hashium`
             
             ---
             

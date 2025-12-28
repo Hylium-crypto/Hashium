@@ -37,7 +37,7 @@ const Navbar = () => {
 
                     {/* Desktop Navigation */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: '40px' }} className="hidden md:flex">
-                        {['Ecosystem', 'Technology', 'Roadmap', 'Stats'].map((item) => (
+                        {['Features', 'Stats', 'Explorer', 'Roadmap'].map((item) => (
                             <a
                                 key={item}
                                 href={`#${item.toLowerCase()}`}

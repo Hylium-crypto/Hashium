@@ -119,6 +119,7 @@ jobs:
             mingw-w64-x86_64-db
             make
             git
+            zip
 
       - name: Build
         run: |
@@ -192,7 +193,7 @@ jobs:
           cp README.md "Hashium-${{ github.ref_name }}-Windows/"
           
           # Create ZIP
-          7z a "Hashium-${{ github.ref_name }}-Windows.zip" "Hashium-${{ github.ref_name }}-Windows"
+          zip -r "Hashium-${{ github.ref_name }}-Windows.zip" "Hashium-${{ github.ref_name }}-Windows"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4

@@ -205,10 +205,10 @@ public:
         // This is fine at runtime as we'll fall back to using them as an addrfetch if they don't support the
         // service bits we want, but we should get them updated to support all service bits wanted by any
         // release ASAP to avoid it where possible.
-        // Placeholder seeds; replace with real Hashium bootstrap nodes before public release.
+        // Community seed nodes for network discovery
+        // Thanks to @le2Ks for providing the first seed node!
         vSeeds = {
-            "seed1.hashium.org.",
-            "seed2.hashium.org."};
+            "seed1.altcoinspool.cc."};
 
         // Distinct prefixes to avoid confusion with Bitcoin keys/addresses.
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 38); // addresses start with 'K'

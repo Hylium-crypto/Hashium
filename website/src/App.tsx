@@ -5,6 +5,7 @@ import Features from './components/Features';
 import Roadmap from './components/Roadmap';
 import Explorer from './components/Explorer';
 import PaperWallet from './components/PaperWallet';
+import PaymentRequest from './components/PaymentRequest';
 import Footer from './components/Footer';
 import './index.css';
 
@@ -20,6 +21,9 @@ function App() {
       </div>
       <div id="paper-wallet-section">
         <PaperWallet />
+      </div>
+      <div id="payment-request">
+        <PaymentRequest />
       </div>
       <Roadmap />
       <Footer />

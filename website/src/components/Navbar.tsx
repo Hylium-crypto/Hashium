@@ -42,6 +42,7 @@ const Navbar = () => {
                             { name: 'Stats', href: '#stats' },
                             { name: 'Explorer', href: '#explorer' },
                             { name: 'Wallet', href: '#paper-wallet-section' },
+                            { name: 'Payment', href: '#payment-request' },
                             { name: 'Roadmap', href: '#roadmap' }
                         ].map((item) => (
                             <a

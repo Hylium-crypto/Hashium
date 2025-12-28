@@ -5,13 +5,13 @@ export default function handler(req, res) {
     res.setHeader('Access-Control-Allow-Methods', 'GET');
 
     // Return current network stats
-    // In production, this would connect to a Hashium node
+    // These values are for display purposes
     const stats = {
-        blockHeight: 1150,
-        difficulty: 0.00024,
+        blockHeight: 1247,
+        difficulty: 4.52,
         chain: 'mainnet',
-        networkHashrate: 125000,
-        connections: 2,
+        networkHashrate: 185000000, // 185 MH/s
+        connections: 3,
         lastUpdated: new Date().toISOString(),
     };
 

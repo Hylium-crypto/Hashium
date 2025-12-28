@@ -37,13 +37,19 @@ const Navbar = () => {
 
                     {/* Desktop Navigation */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: '40px' }} className="hidden md:flex">
-                        {['Features', 'Stats', 'Explorer', 'Roadmap'].map((item) => (
+                        {[
+                            { name: 'Features', href: '#features' },
+                            { name: 'Stats', href: '#stats' },
+                            { name: 'Explorer', href: '#explorer' },
+                            { name: 'Wallet', href: '#paper-wallet-section' },
+                            { name: 'Roadmap', href: '#roadmap' }
+                        ].map((item) => (
                             <a
-                                key={item}
-                                href={`#${item.toLowerCase()}`}
+                                key={item.name}
+                                href={item.href}
                                 style={{ color: '#475569', fontSize: '15px', fontWeight: 500 }}
                             >
-                                {item}
+                                {item.name}
                             </a>
                         ))}
                     </div>

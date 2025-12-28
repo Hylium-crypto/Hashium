@@ -1,145 +1,172 @@
 # Hashium
 
-**🔒 Security • 💎 Scarcity • 🏦 Store of Value**
+<p align="center">
+  <img src="Logo.png" alt="Hashium Logo" width="200">
+</p>
 
-[![Release](https://img.shields.io/github/v/release/Hylium-crypto/Hashium?label=Download)](https://github.com/Hylium-crypto/Hashium/releases/latest)
-[![CI](https://github.com/Hylium-crypto/Hashium/actions/workflows/ci.yml/badge.svg)](https://github.com/Hylium-crypto/Hashium/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+<h3 align="center">🔒 Security • 💎 Scarcity • 🏦 Store of Value</h3>
 
-Hashium is a next-generation cryptocurrency built on the battle-tested Bitcoin Core codebase, 
-designed as a secure store of value with a fixed supply of **21 million coins**.
+<p align="center">
+  <a href="https://github.com/Hylium-crypto/Hashium/releases/latest">
+    <img src="https://img.shields.io/github/v/release/Hylium-crypto/Hashium?label=Download&color=00d4ff" alt="Download">
+  </a>
+  <a href="https://github.com/Hylium-crypto/Hashium/actions/workflows/ci.yml">
+    <img src="https://github.com/Hylium-crypto/Hashium/actions/workflows/ci.yml/badge.svg" alt="CI">
+  </a>
+  <a href="https://opensource.org/licenses/MIT">
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
+  </a>
+</p>
+
+---
 
 ## 📥 Download
 
-**[Download Latest Release](https://github.com/Hylium-crypto/Hashium/releases/latest)**
+**[⬇️ Download Latest Release](https://github.com/Hylium-crypto/Hashium/releases/latest)**
 
-| Platform | Binary |
-|----------|--------|
-| macOS (Apple Silicon) | `hashium-qt` + `hashiumd` |
-| Linux (x86_64) | `hashium-qt` + `hashiumd` |
+| Platform | File |
+|----------|------|
+| macOS (Apple Silicon M1/M2/M3) | `Hashium-vX.X.X-macOS.tar.gz` |
+| Linux (x86_64) | `Hashium-vX.X.X-Linux.tar.gz` |
 
-## Core Principles
+---
 
-| Principle | Description |
-|-----------|-------------|
-| 🔒 **Security** | Built on Bitcoin Core, the most scrutinized codebase in crypto |
-| 💎 **Scarcity** | Fixed supply of 21,000,000 HSM |
-| 🏦 **Store of Value** | Sound money principles: hard cap, halving schedule, PoW |
+## 🚀 Quick Start
 
-## Tokenomics
-
-- **Max Supply:** 21,000,000 HSM
-- **Block Reward:** 50 HSM (halves every 210,000 blocks)
-- **Block Time:** ~10 minutes
-- **Consensus:** Proof of Work (SHA-256)
-- **Smallest Unit:** 1 hashi = 0.00000001 HSM
-
-## Quick Start
-
+### 1. Download & Extract
 ```bash
-# Download from releases
-# https://github.com/Hylium-crypto/Hashium/releases/latest
-
-# GUI Wallet (Recommended)
-./hashium-qt
-
-# Or Command Line
-./hashiumd -daemon
-./hashium-cli getblockchaininfo
-./hashium-cli getnewaddress
+# Download from releases page
+tar -xzf Hashium-*.tar.gz
+cd Hashium-*
 ```
 
-What is Hashium Core?
----------------------
+### 2. Run GUI Wallet
+```bash
+./hashium-qt
+```
 
-Hashium Core connects to the Hashium peer-to-peer network to download and fully
-validate blocks and transactions. It also includes a wallet and graphical user
-interface.
+### 3. Or Command Line
+```bash
+# Start node
+./hashiumd -daemon
 
-Network parameters (Hashium):
-- P2P/RPC ports: mainnet 9333/9332
-- Message start bytes: mainnet f3c2e1b0
-- Bech32 HRP: `hyl` (mainnet)
-- Base58 prefixes: P2PKH 38, P2SH 53, WIF 176
+# Check status
+./hashium-cli getblockchaininfo
 
-## 🌐 Network Status
+# Create wallet address
+./hashium-cli getnewaddress
 
-**✅ MAINNET LIVE** - Genesis block mined December 27, 2025.
+# Check balance
+./hashium-cli getbalance
+```
 
+### macOS Security Note
+If macOS says the app is "damaged", run:
+```bash
+xattr -cr Hashium-*-macOS
+./hashium-qt
+```
 
-## Documentation
+---
 
-| Document | Description |
-|----------|-------------|
-| [Whitepaper](doc/WHITEPAPER.md) | Technical design and monetary policy |
-| [Roadmap](ROADMAP.md) | Development phases and milestones |
-| [Security Policy](SECURITY.md) | Vulnerability reporting guidelines |
-| [Testing Guide](doc/testing.md) | How to run tests |
-| [Consensus Rules](doc/consensus.md) | Detailed consensus specification |
-| [Build Guides](doc/) | Platform-specific build instructions |
+## 💰 Tokenomics
 
-Further information about Hashium Core is available in the [doc folder](/doc).
+| Property | Value |
+|----------|-------|
+| **Max Supply** | 21,000,000 HSM |
+| **Block Reward** | 50 HSM |
+| **Halving** | Every 210,000 blocks |
+| **Block Time** | ~10 minutes |
+| **Consensus** | Proof of Work (SHA-256) |
+| **Smallest Unit** | 1 hashi = 0.00000001 HSM |
 
-License
--------
+---
 
-Hashium Core is released under the terms of the MIT license. See [COPYING](COPYING) for more
-information or see https://opensource.org/license/MIT.
+## ⛏️ Mining
 
-Development Process
--------------------
+```bash
+# Start mining to your address
+./hashium-cli generatetoaddress 1 "YOUR_ADDRESS"
 
-The `master` branch is regularly built (see `doc/build-*.md` for instructions) and tested, but it is not guaranteed to be
-completely stable. [Tags](https://github.com/hashium/hashium/tags) are created
-regularly from release branches to indicate new official, stable release versions of Hashium Core.
+# Or mine continuously (100 blocks)
+./hashium-cli generatetoaddress 100 "YOUR_ADDRESS"
+```
 
-The https://github.com/hashium-core/gui repository is used exclusively for the
-development of the GUI. Its master branch is identical in all monotree
-repositories. Release branches and tags do not exist, so please do not fork
-that repository unless it is for development reasons.
+---
 
-The contribution workflow is described in [CONTRIBUTING.md](CONTRIBUTING.md)
-and useful hints for developers can be found in [doc/developer-notes.md](doc/developer-notes.md).
+## 🔧 Build from Source
 
-Testing
--------
+### Prerequisites
 
-Testing and code review is the bottleneck for development; we get more pull
-requests than we can review and test on short notice. Please be patient and help out by testing
-other people's pull requests, and remember this is a security-critical project where any mistake might cost people
-lots of money.
+**macOS:**
+```bash
+brew install cmake boost libevent sqlite miniupnpc libnatpmp berkeley-db@4 qt@6 qrencode
+```
 
-### Automated Testing
+**Ubuntu/Debian:**
+```bash
+sudo apt-get install build-essential cmake libevent-dev libboost-dev \
+  libboost-filesystem-dev libsqlite3-dev libminiupnpc-dev libnatpmp-dev \
+  libdb++-dev qt6-base-dev qt6-tools-dev libqrencode-dev
+```
 
-Developers are strongly encouraged to write [unit tests](src/test/README.md) for new code, and to
-submit new unit tests for old code. Unit tests can be compiled and run
-(assuming they weren't disabled during the generation of the build system) with: `ctest`. Further details on running
-and extending unit tests can be found in [/src/test/README.md](/src/test/README.md).
+### Build
+```bash
+git clone https://github.com/Hylium-crypto/Hashium.git
+cd Hashium
 
-There are also [regression and integration tests](/test), written
-in Python.
-These tests can be run (if the [test dependencies](/test) are installed) with: `build/test/functional/test_runner.py`
-(assuming `build` is your build directory).
+cmake -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_GUI=ON -DBUILD_WALLET=ON
+cmake --build build -j$(nproc)
 
-The CI (Continuous Integration) systems make sure that every pull request is tested on Windows, Linux, and macOS.
-The CI must pass on all commits before merge to avoid unrelated CI failures on new pull requests.
+# Binaries in build/bin/
+./build/bin/hashium-qt
+```
 
-### Manual Quality Assurance (QA) Testing
+---
 
-Changes should be tested by somebody other than the developer who wrote the
-code. This is especially important for large or high-risk changes. It is useful
-to add a test plan to the pull request description if testing the changes is
-not straightforward.
+## 📁 Data Directory
 
-Translations
-------------
+| Platform | Location |
+|----------|----------|
+| macOS | `~/Library/Application Support/Hashium/` |
+| Linux | `~/.hashium/` |
 
-Changes to translations as well as new translations can be submitted to
-[Hashium Core's Transifex page](https://explore.transifex.com/hashium/hashium/).
+---
 
-Translations are periodically pulled from Transifex and merged into the git repository. See the
-[translation process](doc/translation_process.md) for details on how this works.
+## 🌐 Network
 
-**Important**: We do not accept translation changes as GitHub pull requests because the next
-pull from Transifex would automatically overwrite them again.
-# Initial Hashium Protocol Release
+| Parameter | Value |
+|-----------|-------|
+| P2P Port | 9333 |
+| RPC Port | 9332 |
+| Bech32 Prefix | `hyl` |
+| Genesis Date | December 27, 2025 |
+
+---
+
+## 📖 Documentation
+
+- [Build Guide](doc/build-unix.md) - Detailed build instructions
+- [Mining Guide](doc/mining.md) - How to mine HSM
+- [RPC Commands](doc/commands.md) - Full command reference
+
+---
+
+## ⚖️ License
+
+Hashium is released under the [MIT License](COPYING).
+
+---
+
+## 🔗 Links
+
+- **Website**: Coming soon
+- **GitHub**: https://github.com/Hylium-crypto/Hashium
+- **Releases**: https://github.com/Hylium-crypto/Hashium/releases
+
+---
+
+<p align="center">
+  <b>Built with ❤️ on Bitcoin Core</b><br>
+  <i>Hashium - Sound Money for the Digital Age</i>
+</p>

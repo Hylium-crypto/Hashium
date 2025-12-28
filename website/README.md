@@ -1,61 +1,49 @@
 # Hashium Website
 
-Modern React website for Hashium cryptocurrency with 3D graphics and animations.
+Official website for the Hashium cryptocurrency.
 
-## Quick Start
+## 🚀 Deploy to Vercel
+
+### Option 1: One-Click Deploy
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Hylium-crypto/Hashium&root-directory=website)
+
+### Option 2: Manual Deploy
+
+1. Install Vercel CLI:
+```bash
+npm i -g vercel
+```
+
+2. Deploy:
+```bash
+cd website
+vercel
+```
+
+3. Follow the prompts and choose the `website` directory as root.
+
+## 🛠️ Local Development
 
 ```bash
-# Install dependencies
+cd website
 npm install
-
-# Start development server
 npm run dev
-
-# Open http://localhost:5173
 ```
 
-## Scripts
+Open http://localhost:5173
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
-| `npm run preview` | Preview production build |
-| `npm run lint` | Run ESLint |
-
-## Tech Stack
-
-- **Framework**: React 19
-- **Build Tool**: Vite 7
-- **3D Graphics**: Three.js + React Three Fiber
-- **Animations**: Framer Motion
-- **Styling**: Tailwind CSS v4
-- **Icons**: Lucide React
-- **Routing**: React Router v7
-
-## Project Structure
+## 📁 Project Structure
 
 ```
-src/
-├── components/     # React components
-├── services/       # API services
-├── assets/         # Static assets
-└── App.tsx         # Main app component
+website/
+├── src/
+│   ├── components/    # React components
+│   ├── services/      # API services
+│   └── App.tsx        # Main app
+├── public/            # Static assets
+└── vercel.json        # Vercel config
 ```
 
-## Connecting to Backend
+## 🌐 Production
 
-The website connects to the backend API at `http://localhost:3001` by default.
-Make sure the backend is running for full functionality.
-
-## Build for Production
-
-```bash
-npm run build
-```
-
-Output will be in the `dist/` directory, ready for static hosting.
-
-## License
-
-MIT - See [../COPYING](../COPYING)
+After deploying, update the website URL in the main README.md.

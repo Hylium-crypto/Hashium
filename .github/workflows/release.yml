@@ -131,13 +131,68 @@ jobs:
           cmake --build build -j$(nproc)
 
       - name: Package
-        shell: pwsh
+        shell: msys2 {0}
         run: |
-          New-Item -ItemType Directory -Force -Path "Hashium-${{ github.ref_name }}-Windows"
-          Copy-Item build/bin/*.exe "Hashium-${{ github.ref_name }}-Windows/"
-          Copy-Item COPYING "Hashium-${{ github.ref_name }}-Windows/"
-          Copy-Item README.md "Hashium-${{ github.ref_name }}-Windows/"
-          Compress-Archive -Path "Hashium-${{ github.ref_name }}-Windows" -DestinationPath "Hashium-${{ github.ref_name }}-Windows.zip"
+          mkdir -p "Hashium-${{ github.ref_name }}-Windows"
+          
+          # Copy executables
+          cp build/bin/*.exe "Hashium-${{ github.ref_name }}-Windows/"
+          
+          # Copy Qt6 DLLs
+          cp /mingw64/bin/Qt6Core.dll "Hashium-${{ github.ref_name }}-Windows/"
+          cp /mingw64/bin/Qt6Gui.dll "Hashium-${{ github.ref_name }}-Windows/"
+          cp /mingw64/bin/Qt6Widgets.dll "Hashium-${{ github.ref_name }}-Windows/"
+          cp /mingw64/bin/Qt6Network.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          
+          # Copy Qt6 plugins
+          mkdir -p "Hashium-${{ github.ref_name }}-Windows/platforms"
+          cp /mingw64/share/qt6/plugins/platforms/qwindows.dll "Hashium-${{ github.ref_name }}-Windows/platforms/"
+          
+          mkdir -p "Hashium-${{ github.ref_name }}-Windows/styles"
+          cp /mingw64/share/qt6/plugins/styles/*.dll "Hashium-${{ github.ref_name }}-Windows/styles/" || true
+          
+          # Copy other dependencies
+          cp /mingw64/bin/libqrencode.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libevent*.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libsqlite3*.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libdb*.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libminiupnpc*.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libnatpmp*.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          
+          # Copy MinGW runtime DLLs
+          cp /mingw64/bin/libgcc_s_seh-1.dll "Hashium-${{ github.ref_name }}-Windows/"
+          cp /mingw64/bin/libstdc++-6.dll "Hashium-${{ github.ref_name }}-Windows/"
+          cp /mingw64/bin/libwinpthread-1.dll "Hashium-${{ github.ref_name }}-Windows/"
+          
+          # Copy boost DLLs
+          cp /mingw64/bin/libboost_filesystem*.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libboost_thread*.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          
+          # Copy other required DLLs
+          cp /mingw64/bin/zlib1.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libpng16-16.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libharfbuzz-0.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libfreetype-6.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libbz2-1.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libintl-8.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libiconv-2.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libpcre2-16-0.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libdouble-conversion.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libicuin*.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libicuuc*.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libicudt*.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libbrotli*.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libglib-2.0-0.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libgraphite2.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libpcre2-8-0.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libmd4c.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          
+          # Copy docs
+          cp COPYING "Hashium-${{ github.ref_name }}-Windows/"
+          cp README.md "Hashium-${{ github.ref_name }}-Windows/"
+          
+          # Create ZIP
+          7z a "Hashium-${{ github.ref_name }}-Windows.zip" "Hashium-${{ github.ref_name }}-Windows"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4

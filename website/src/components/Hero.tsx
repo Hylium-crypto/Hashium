@@ -63,7 +63,7 @@ const Hero = () => {
 
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', paddingTop: '12px' }}>
                         <a
-                            href="https://github.com/Hylium-crypto/Hashium/releases"
+                            href="https://github.com/Hylium-crypto/Hashium/releases/latest"
                             target="_blank"
                             rel="noopener noreferrer"
                             style={{

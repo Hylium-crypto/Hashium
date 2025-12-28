@@ -2,18 +2,28 @@
 
 **🔒 Security • 💎 Scarcity • 🏦 Store of Value**
 
+[![Release](https://img.shields.io/github/v/release/Hylium-crypto/Hashium?label=Download)](https://github.com/Hylium-crypto/Hashium/releases/latest)
 [![CI](https://github.com/Hylium-crypto/Hashium/actions/workflows/ci.yml/badge.svg)](https://github.com/Hylium-crypto/Hashium/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Hashium is a next-generation cryptocurrency built on the battle-tested Bitcoin Core codebase, 
 designed as a secure store of value with a fixed supply of **21 million coins**.
 
+## 📥 Download
+
+**[Download Latest Release](https://github.com/Hylium-crypto/Hashium/releases/latest)**
+
+| Platform | Binary |
+|----------|--------|
+| macOS (Apple Silicon) | `hashium-qt` + `hashiumd` |
+| Linux (x86_64) | `hashium-qt` + `hashiumd` |
+
 ## Core Principles
 
 | Principle | Description |
 |-----------|-------------|
 | 🔒 **Security** | Built on Bitcoin Core, the most scrutinized codebase in crypto |
-| 💎 **Scarcity** | Fixed supply of 21,000,000 HSM - no inflation, no pre-mine |
+| 💎 **Scarcity** | Fixed supply of 21,000,000 HSM |
 | 🏦 **Store of Value** | Sound money principles: hard cap, halving schedule, PoW |
 
 ## Tokenomics
@@ -22,18 +32,21 @@ designed as a secure store of value with a fixed supply of **21 million coins**.
 - **Block Reward:** 50 HSM (halves every 210,000 blocks)
 - **Block Time:** ~10 minutes
 - **Consensus:** Proof of Work (SHA-256)
+- **Smallest Unit:** 1 hashi = 0.00000001 HSM
 
 ## Quick Start
 
 ```bash
 # Download from releases
-# https://github.com/Hylium-crypto/Hashium/releases
+# https://github.com/Hylium-crypto/Hashium/releases/latest
 
-# Start the node
-./hashiumd
+# GUI Wallet (Recommended)
+./hashium-qt
 
-# Check blockchain info
+# Or Command Line
+./hashiumd -daemon
 ./hashium-cli getblockchaininfo
+./hashium-cli getnewaddress
 ```
 
 What is Hashium Core?
@@ -41,27 +54,18 @@ What is Hashium Core?
 
 Hashium Core connects to the Hashium peer-to-peer network to download and fully
 validate blocks and transactions. It also includes a wallet and graphical user
-interface, which can be optionally built.
+interface.
 
 Network parameters (Hashium):
-- P2P/RPC ports: mainnet 9333/9332, testnet3 19335/19332, testnet4 29333/29332, regtest 39444/39443.
-- Message start bytes: mainnet f3c2e1b0, testnet3 a39c876e, testnet4 b3a17f55, regtest c1d2e3f4.
-- bech32 HRP: `hyl` (main), `thyl` (test), `rhyl` (regtest).
-- Base58 prefixes: P2PKH 38, P2SH 53, WIF 176 (mainnet).
-- Seeds: **PLACEHOLDER** - `seed1.hashium.org`, `seed2.hashium.org` must be replaced with live nodes before mainnet launch.
+- P2P/RPC ports: mainnet 9333/9332
+- Message start bytes: mainnet f3c2e1b0
+- Bech32 HRP: `hyl` (mainnet)
+- Base58 prefixes: P2PKH 38, P2SH 53, WIF 176
 
-## Current Network Status
+## 🌐 Network Status
 
-**TESTNET PHASE** - Hashium is currently in testnet/development phase. Mainnet has not launched yet.
-- Mainnet seed nodes are placeholders and not operational
-- Use testnet3 (`-testnet` flag) or regtest (`-regtest`) for testing
-- **DO NOT** use this for real value until mainnet is officially announced
+**✅ MAINNET LIVE** - Genesis block mined December 27, 2025.
 
-Future roadmap (work-in-progress):
-- Fast sync via assumeUTXO snapshots (to be produced/published for Hashium)
-- Privacy-first payment flows (PayJoin/Silent Payments) and better relay policies
-- Vault-style spending policies for safer hot wallets
-- L2-friendly fee/policy tuning for channels
 
 ## Documentation
 

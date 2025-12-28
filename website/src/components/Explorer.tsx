@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Blocks, Clock, Hash, ArrowRight } from 'lucide-react';
 
 interface Block {
@@ -27,19 +27,18 @@ const generateBlocks = (): Block[] => {
 };
 
 const Explorer = () => {
-    const [blocks, setBlocks] = useState<Block[]>([]);
-    const [stats, setStats] = useState({ blockHeight: 0, difficulty: 0, hashrate: 0 });
+    // Generate blocks once on mount using useMemo
+    const blocks = useMemo(() => generateBlocks(), []);
+    const [stats, setStats] = useState({ blockHeight: 1300, difficulty: 0.001, hashrate: 50000 });
 
     useEffect(() => {
-        setBlocks(generateBlocks());
-
         // Fetch stats from API
         fetch('/api/stats')
             .then(res => res.json())
             .then(data => setStats({
-                blockHeight: data.blockHeight,
-                difficulty: data.difficulty,
-                hashrate: data.networkHashrate
+                blockHeight: data.blockHeight || 1300,
+                difficulty: data.difficulty || 0.001,
+                hashrate: data.networkHashrate || 50000
             }))
             .catch(() => { });
     }, []);

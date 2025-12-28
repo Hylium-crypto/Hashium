@@ -31,9 +31,9 @@ This document outlines the development phases and milestones for Hashium.
 |-----------|--------|-------------|
 | Security Audit | 🔴 Not Started | Third-party code review |
 | Seed Node Deployment | 🟡 Pending | Bootstrap nodes for network |
-| Block Explorer | 🔴 Not Started | Public transaction viewer |
-| Wallet Releases | 🔴 Not Started | Binary releases for all platforms |
-| Website Launch | 🟡 In Progress | Public project website |
+| Block Explorer | 🟡 In Progress | Basic stats, full explorer coming |
+| Wallet Releases | ✅ Complete | Win/Mac/Linux releases available |
+| Website Launch | ✅ Complete | https://hashium-website.vercel.app |
 | CI/CD Pipeline | ✅ Complete | Automated builds and tests |
 
 ---

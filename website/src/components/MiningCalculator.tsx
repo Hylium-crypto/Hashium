@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Cpu, Zap, Clock, TrendingUp, Calculator } from 'lucide-react';
 
 // Hashium network constants
@@ -10,12 +10,6 @@ const MiningCalculator = () => {
     const [hashrate, setHashrate] = useState('1000'); // KH/s
     const [networkHashrate, setNetworkHashrate] = useState(50); // KH/s (from network)
     const [difficulty, setDifficulty] = useState(0.001);
-    const [results, setResults] = useState({
-        dailyHSM: 0,
-        weeklyHSM: 0,
-        monthlyHSM: 0,
-        blocksPerDay: 0
-    });
 
     // Fetch network stats
     useEffect(() => {
@@ -28,8 +22,8 @@ const MiningCalculator = () => {
             .catch(() => { });
     }, []);
 
-    // Calculate mining rewards
-    useEffect(() => {
+    // Calculate mining rewards using useMemo (not useEffect+setState)
+    const results = useMemo(() => {
         const userHashrateKH = parseFloat(hashrate) || 0;
         const networkKH = networkHashrate || 1;
 
@@ -44,12 +38,12 @@ const MiningCalculator = () => {
         const weeklyHSM = dailyHSM * 7;
         const monthlyHSM = dailyHSM * 30;
 
-        setResults({
+        return {
             dailyHSM: parseFloat(dailyHSM.toFixed(4)),
             weeklyHSM: parseFloat(weeklyHSM.toFixed(4)),
             monthlyHSM: parseFloat(monthlyHSM.toFixed(4)),
             blocksPerDay: parseFloat(userBlocksPerDay.toFixed(4))
-        });
+        };
     }, [hashrate, networkHashrate]);
 
     return (

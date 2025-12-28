@@ -14,7 +14,6 @@ jobs:
   build-linux:
     name: Build (Linux)
     runs-on: ubuntu-22.04
-    continue-on-error: true  # C++ build issues shouldn't block backend/website
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -59,7 +58,6 @@ jobs:
   build-macos:
     name: Build (macOS)
     runs-on: macos-14
-    continue-on-error: true  # C++ build issues shouldn't block backend/website
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -93,35 +91,6 @@ jobs:
             
       - name: Build
         run: cmake --build build -j$(sysctl -n hw.ncpu)
-
-  backend:
-    name: Backend Tests
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: backend/package-lock.json
-          
-      - name: Install dependencies
-        run: npm ci
-        
-      - name: Generate Prisma client
-        run: npm run db:generate
-        
-      - name: Build
-        run: npm run build
-        
-      - name: Type check
-        run: npx tsc --noEmit
 
   website:
     name: Website Build

@@ -4,9 +4,6 @@
 # GitHub Sponsors
 github: [Panagiotis012]
 
-# Custom donation links
-custom:
-  - https://hashium.org/donate
-
-# Bitcoin (for irony) - Replace with Hashium address when mainnet launches
-# bitcoin: bc1q...
+# Custom donation links - will be updated when project launches officially
+# custom:
+#   - https://hashium-website.vercel.app/donate

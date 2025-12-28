@@ -39,10 +39,10 @@ const Navbar = () => {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '40px' }} className="hidden md:flex">
                         {[
                             { name: 'Features', href: '#features' },
-                            { name: 'Stats', href: '#stats' },
                             { name: 'Explorer', href: '#explorer' },
                             { name: 'Wallet', href: '#paper-wallet-section' },
                             { name: 'Payment', href: '#payment-request' },
+                            { name: 'Mining', href: '#mining-calculator' },
                             { name: 'Roadmap', href: '#roadmap' }
                         ].map((item) => (
                             <a

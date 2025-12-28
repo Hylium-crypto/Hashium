@@ -6,6 +6,7 @@ import Roadmap from './components/Roadmap';
 import Explorer from './components/Explorer';
 import PaperWallet from './components/PaperWallet';
 import PaymentRequest from './components/PaymentRequest';
+import MiningCalculator from './components/MiningCalculator';
 import Footer from './components/Footer';
 import './index.css';
 
@@ -24,6 +25,9 @@ function App() {
       </div>
       <div id="payment-request">
         <PaymentRequest />
+      </div>
+      <div id="mining-calculator">
+        <MiningCalculator />
       </div>
       <Roadmap />
       <Footer />

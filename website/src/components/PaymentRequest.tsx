@@ -61,8 +61,8 @@ const PaymentRequest = () => {
                     text: `Pay ${amount || ''} HSM to ${address}`,
                     url: generatePaymentURI()
                 });
-            } catch (err) {
-                console.log('Share cancelled');
+            } catch {
+                // Share cancelled or not supported
             }
         } else {
             copyToClipboard();

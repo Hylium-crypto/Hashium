@@ -152,6 +152,19 @@ cmake --build build -j$(nproc)
 
 ---
 
+## ⚠️ Disclaimer
+
+> **IMPORTANT:** Hashium is **EXPERIMENTAL SOFTWARE** provided for educational purposes only.
+> 
+> - This is **NOT AN INVESTMENT** - no financial returns are promised or implied
+> - The developers make **NO GUARANTEES** about value, functionality, or future development
+> - You may **LOSE ALL VALUE** associated with HSM tokens
+> - Use at your own risk
+>
+> **[Read Full Disclaimer](DISCLAIMER.md)**
+
+---
+
 ## ⚖️ License
 
 Hashium is released under the [MIT License](COPYING).
@@ -168,5 +181,10 @@ Hashium is released under the [MIT License](COPYING).
 
 <p align="center">
   <b>Built with ❤️ on Bitcoin Core</b><br>
-  <i>Hashium - Sound Money for the Digital Age</i>
+  <i>Hashium - An Educational Blockchain Experiment</i>
 </p>
+
+<p align="center">
+  <sub>⚠️ This is experimental software. Not financial advice. <a href="DISCLAIMER.md">Read Disclaimer</a></sub>
+</p>
+

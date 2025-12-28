@@ -188,6 +188,21 @@ jobs:
           cp /mingw64/bin/libpcre2-8-0.dll "Hashium-${{ github.ref_name }}-Windows/" || true
           cp /mingw64/bin/libmd4c.dll "Hashium-${{ github.ref_name }}-Windows/" || true
           
+          # Compression libraries
+          cp /mingw64/bin/libzstd*.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libb2*.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/liblzma*.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libzlib*.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          
+          # SSL/Crypto
+          cp /mingw64/bin/libssl*.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libcrypto*.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          
+          # Copy ALL other potentially needed DLLs
+          cp /mingw64/bin/libssp*.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libzmq*.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          cp /mingw64/bin/libsodium*.dll "Hashium-${{ github.ref_name }}-Windows/" || true
+          
           # Copy docs
           cp COPYING "Hashium-${{ github.ref_name }}-Windows/"
           cp README.md "Hashium-${{ github.ref_name }}-Windows/"

@@ -12,9 +12,8 @@
 
 static constexpr auto MAX_DIGITS_HSM = 16;
 
-HashiumUnits::HashiumUnits(QObject *parent):
-        QAbstractListModel(parent),
-        unitlist(availableUnits())
+HashiumUnits::HashiumUnits(QObject* parent) : QAbstractListModel(parent),
+                                              unitlist(availableUnits())
 {
 }
 
@@ -34,7 +33,7 @@ QString HashiumUnits::longName(Unit unit)
     case Unit::HSM: return QString("HSM");
     case Unit::mHSM: return QString("mHSM");
     case Unit::uHSM: return QString::fromUtf8("µHSM (bits)");
-    case Unit::SAT: return QString("Hashi (sat)");
+    case Unit::SAT: return QString("Hashi");
     } // no default case, so the compiler can warn about missing cases
     assert(false);
 }
@@ -45,7 +44,7 @@ QString HashiumUnits::shortName(Unit unit)
     case Unit::HSM: return longName(unit);
     case Unit::mHSM: return longName(unit);
     case Unit::uHSM: return QString("bits");
-    case Unit::SAT: return QString("sat");
+    case Unit::SAT: return QString("hashi");
     } // no default case, so the compiler can warn about missing cases
     assert(false);
 }
@@ -56,7 +55,7 @@ QString HashiumUnits::description(Unit unit)
     case Unit::HSM: return QString("Hashiums");
     case Unit::mHSM: return QString("Milli-Hashiums (1 / 1" THIN_SP_UTF8 "000)");
     case Unit::uHSM: return QString("Micro-Hashiums (bits) (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
-    case Unit::SAT: return QString("Hashi (sat) (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+    case Unit::SAT: return QString("Hashi (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
     } // no default case, so the compiler can warn about missing cases
     assert(false);
 }
@@ -162,31 +161,26 @@ bool HashiumUnits::parse(Unit unit, const QString& value, CAmount* val_out)
     // Ignore spaces and thin spaces when parsing
     QStringList parts = removeSpaces(value).split(".");
 
-    if(parts.size() > 2)
-    {
+    if (parts.size() > 2) {
         return false; // More than one dot
     }
     const QString& whole = parts[0];
     QString decimals;
 
-    if(parts.size() > 1)
-    {
+    if (parts.size() > 1) {
         decimals = parts[1];
     }
-    if(decimals.size() > num_decimals)
-    {
+    if (decimals.size() > num_decimals) {
         return false; // Exceeds max precision
     }
     bool ok = false;
     QString str = whole + decimals.leftJustified(num_decimals, '0');
 
-    if(str.size() > 18)
-    {
+    if (str.size() > 18) {
         return false; // Longer numbers will exceed 63 bits
     }
     CAmount retvalue(str.toLongLong(&ok));
-    if(val_out)
-    {
+    if (val_out) {
         *val_out = retvalue;
     }
     return ok;
@@ -197,20 +191,18 @@ QString HashiumUnits::getAmountColumnTitle(Unit unit)
     return QObject::tr("Amount") + " (" + shortName(unit) + ")";
 }
 
-int HashiumUnits::rowCount(const QModelIndex &parent) const
+int HashiumUnits::rowCount(const QModelIndex& parent) const
 {
     Q_UNUSED(parent);
     return unitlist.size();
 }
 
-QVariant HashiumUnits::data(const QModelIndex &index, int role) const
+QVariant HashiumUnits::data(const QModelIndex& index, int role) const
 {
     int row = index.row();
-    if(row >= 0 && row < unitlist.size())
-    {
+    if (row >= 0 && row < unitlist.size()) {
         Unit unit = unitlist.at(row);
-        switch(role)
-        {
+        switch (role) {
         case Qt::EditRole:
         case Qt::DisplayRole:
             return QVariant(longName(unit));

@@ -34,7 +34,7 @@ QString HashiumUnits::longName(Unit unit)
     case Unit::HSM: return QString("HSM");
     case Unit::mHSM: return QString("mHSM");
     case Unit::uHSM: return QString::fromUtf8("µHSM (bits)");
-    case Unit::SAT: return QString("Satoshi (sat)");
+    case Unit::SAT: return QString("Hashi (sat)");
     } // no default case, so the compiler can warn about missing cases
     assert(false);
 }
@@ -56,7 +56,7 @@ QString HashiumUnits::description(Unit unit)
     case Unit::HSM: return QString("Hashiums");
     case Unit::mHSM: return QString("Milli-Hashiums (1 / 1" THIN_SP_UTF8 "000)");
     case Unit::uHSM: return QString("Micro-Hashiums (bits) (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
-    case Unit::SAT: return QString("Satoshi (sat) (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+    case Unit::SAT: return QString("Hashi (sat) (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
     } // no default case, so the compiler can warn about missing cases
     assert(false);
 }

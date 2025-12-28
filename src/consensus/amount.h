@@ -1,4 +1,4 @@
-// Copyright (c) 2009-2010 Satoshi Nakamoto
+// Copyright (c) 2009-2010 Hashi Nakamoto
 // Copyright (c) 2009-2021 The Hashium Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -8,13 +8,13 @@
 
 #include <cstdint>
 
-/** Amount in satoshis (Can be negative) */
+/** Amount in hashis (Can be negative) */
 typedef int64_t CAmount;
 
-/** The amount of satoshis in one HSM. */
+/** The amount of hashis in one HSM. */
 static constexpr CAmount COIN = 100000000;
 
-/** No amount larger than this (in satoshi) is valid.
+/** No amount larger than this (in hashi) is valid.
  *
  * Note that this constant is *not* the total money supply, which in Hashium
  * currently happens to be less than 21,000,000 HSM for various reasons, but

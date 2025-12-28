@@ -29,6 +29,7 @@
 
 | Platform | File |
 |----------|------|
+| Windows (x64) | `Hashium-vX.X.X-Windows.zip` |
 | macOS (Apple Silicon) | `Hashium-vX.X.X-macOS.tar.gz` |
 | Linux (x86_64) | `Hashium-vX.X.X-Linux.tar.gz` |
 

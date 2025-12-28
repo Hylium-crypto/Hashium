@@ -90,9 +90,64 @@ jobs:
           name: macos
           path: Hashium-${{ github.ref_name }}-macOS.tar.gz
 
+  build-windows:
+    name: Build Windows
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: >-
+            mingw-w64-x86_64-toolchain
+            mingw-w64-x86_64-cmake
+            mingw-w64-x86_64-boost
+            mingw-w64-x86_64-libevent
+            mingw-w64-x86_64-sqlite3
+            mingw-w64-x86_64-miniupnpc
+            mingw-w64-x86_64-libnatpmp
+            mingw-w64-x86_64-qt6-base
+            mingw-w64-x86_64-qt6-tools
+            mingw-w64-x86_64-qrencode
+            mingw-w64-x86_64-db
+            make
+            git
+
+      - name: Build
+        run: |
+          cmake -B build -G "MSYS Makefiles" \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DBUILD_GUI=ON \
+            -DBUILD_WALLET=ON \
+            -DBUILD_TESTS=OFF \
+            -DENABLE_IPC=OFF
+          cmake --build build -j$(nproc)
+
+      - name: Package
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path "Hashium-${{ github.ref_name }}-Windows"
+          Copy-Item build/bin/*.exe "Hashium-${{ github.ref_name }}-Windows/"
+          Copy-Item COPYING "Hashium-${{ github.ref_name }}-Windows/"
+          Copy-Item README.md "Hashium-${{ github.ref_name }}-Windows/"
+          Compress-Archive -Path "Hashium-${{ github.ref_name }}-Windows" -DestinationPath "Hashium-${{ github.ref_name }}-Windows.zip"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: Hashium-${{ github.ref_name }}-Windows.zip
+
   create-release:
     name: Create Release
-    needs: [build-linux, build-macos]
+    needs: [build-linux, build-macos, build-windows]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -108,47 +163,43 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          files: artifacts/**/*.tar.gz
+          files: |
+            artifacts/**/*.tar.gz
+            artifacts/**/*.zip
           generate_release_notes: true
           body: |
             # Hashium ${{ github.ref_name }}
             
-            **🔒 Security • 💎 Scarcity • 🏦 Store of Value**
+            ⚠️ **Experimental cryptocurrency project - Not an investment**
             
             ## 📥 Downloads
             
             | Platform | Download |
             |----------|----------|
-            | **macOS** (Apple Silicon) | `Hashium-${{ github.ref_name }}-macOS.tar.gz` |
-            | **Linux** (x86_64) | `Hashium-${{ github.ref_name }}-Linux.tar.gz` |
+            | **🪟 Windows** (x64) | `Hashium-${{ github.ref_name }}-Windows.zip` |
+            | **🍎 macOS** (Apple Silicon) | `Hashium-${{ github.ref_name }}-macOS.tar.gz` |
+            | **🐧 Linux** (x86_64) | `Hashium-${{ github.ref_name }}-Linux.tar.gz` |
             
             ## 🚀 Quick Start
             
-            ```bash
-            # 1. Download and extract
-            tar -xzf Hashium-${{ github.ref_name }}-*.tar.gz
-            cd Hashium-${{ github.ref_name }}-*
+            ### Windows
+            1. Download and extract the ZIP
+            2. Run `hashium-qt.exe`
             
-            # 2. Run GUI Wallet
+            ### macOS/Linux
+            ```bash
+            tar -xzf Hashium-*.tar.gz
+            cd Hashium-*
             ./hashium-qt
-            
-            # 3. Or run CLI
-            ./hashiumd -daemon
-            ./hashium-cli getblockchaininfo
             ```
             
-            ### macOS Users
-            If you see "damaged" error, run:
+            ### macOS Security Fix
             ```bash
-            xattr -cr Hashium-${{ github.ref_name }}-macOS
+            xattr -cr Hashium-*-macOS
             ```
             
-            ## 💰 Tokenomics
-            - **Max Supply:** 21,000,000 HSM
-            - **Block Reward:** 50 HSM (halves every 210,000 blocks)
-            - **Smallest Unit:** 1 hashi = 0.00000001 HSM
-            
-            ## 📖 Documentation
-            See [README.md](https://github.com/Hylium-crypto/Hashium) for full documentation.
+            ## ⚠️ Disclaimer
+            This is experimental software for educational purposes only.
+            See [DISCLAIMER.md](https://github.com/Hylium-crypto/Hashium/blob/main/DISCLAIMER.md)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

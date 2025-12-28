@@ -1,4 +1,5 @@
-const API_BASE = 'http://localhost:3001/api';
+// API Base - uses relative path for Vercel serverless functions
+const API_BASE = '/api';
 
 export interface NetworkStats {
     blockHeight: number;

@@ -173,7 +173,7 @@ Hashium is released under the [MIT License](COPYING).
 
 ## 🔗 Links
 
-- **Website**: Coming soon
+- **Website**: https://hashium-website.vercel.app
 - **GitHub**: https://github.com/Hylium-crypto/Hashium
 - **Releases**: https://github.com/Hylium-crypto/Hashium/releases
 

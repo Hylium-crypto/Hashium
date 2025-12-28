@@ -56,9 +56,9 @@ const Hero = () => {
                         fontSize: '17px',
                         lineHeight: 1.7,
                     }}>
-                        Hashium is a next-generation cryptocurrency built for speed,
-                        security, and true decentralization. Join thousands of users
-                        building the future of finance.
+                        Hashium is an experimental open-source cryptocurrency project.
+                        Built on Bitcoin Core, it's a learning project for blockchain technology.
+                        ⚠️ Early stage - not an investment.
                     </p>
 
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', paddingTop: '12px' }}>

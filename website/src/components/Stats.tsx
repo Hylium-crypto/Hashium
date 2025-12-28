@@ -30,13 +30,13 @@ const useAnimatedCounter = (end: number, duration: number = 2000) => {
     return count;
 };
 
-// Mock data for demo
+// Mock data for demo - HONEST values for experimental network
 const MOCK_STATS: NetworkStats = {
-    blockHeight: 847293,
-    difficulty: 92.47,
+    blockHeight: 1300,
+    difficulty: 0.001,
     chain: 'mainnet',
-    networkHashrate: 245000000,
-    connections: 1247,
+    networkHashrate: 50000, // 50 KH/s - small network
+    connections: 2,
     lastUpdated: new Date().toISOString(),
 };
 

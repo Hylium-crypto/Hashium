@@ -4,7 +4,7 @@
   <img src="Logo.png" alt="Hashium Logo" width="200">
 </p>
 
-<h3 align="center">🔒 Security • 💎 Scarcity • 🏦 Store of Value</h3>
+<h3 align="center">⚠️ Experimental Cryptocurrency Project</h3>
 
 <p align="center">
   <a href="https://github.com/Hylium-crypto/Hashium/releases/latest">
@@ -18,6 +18,9 @@
   </a>
 </p>
 
+> **⚠️ WARNING:** This is an experimental open-source project for educational purposes only. 
+> This is NOT an investment. No guarantees are made. See [DISCLAIMER.md](DISCLAIMER.md).
+
 ---
 
 ## 📥 Download
@@ -26,7 +29,7 @@
 
 | Platform | File |
 |----------|------|
-| macOS (Apple Silicon M1/M2/M3) | `Hashium-vX.X.X-macOS.tar.gz` |
+| macOS (Apple Silicon) | `Hashium-vX.X.X-macOS.tar.gz` |
 | Linux (x86_64) | `Hashium-vX.X.X-Linux.tar.gz` |
 
 ---
@@ -35,7 +38,6 @@
 
 ### 1. Download & Extract
 ```bash
-# Download from releases page
 tar -xzf Hashium-*.tar.gz
 cd Hashium-*
 ```
@@ -45,82 +47,90 @@ cd Hashium-*
 ./hashium-qt
 ```
 
-### 3. Or Command Line
+### 3. Command Line
 ```bash
-# Start node
-./hashiumd -daemon
-
-# Check status
-./hashium-cli getblockchaininfo
-
-# Create wallet address
-./hashium-cli getnewaddress
-
-# Check balance
-./hashium-cli getbalance
+./hashiumd -daemon      # Start node
+./hashium-cli getinfo   # Check status
 ```
 
-### macOS Security Note
-If macOS says the app is "damaged", run:
+### macOS Security Fix
 ```bash
 xattr -cr Hashium-*-macOS
-./hashium-qt
 ```
 
 ---
 
-## 💰 Tokenomics
+## 📊 Project Status
+
+> **⚠️ Early Development Phase**
+
+| Status | Details |
+|--------|---------|
+| Network | **Very small** (~1-5 nodes) |
+| Stage | Experimental/Testing |
+| Blocks | Mining active |
+| Peers | Limited - need more nodes! |
+
+**This is a new project. The network is small and experimental.**
+
+---
+
+## 🔧 Technical Specs
 
 | Property | Value |
 |----------|-------|
-| **Max Supply** | 21,000,000 HSM |
-| **Block Reward** | 50 HSM |
-| **Halving** | Every 210,000 blocks |
-| **Block Time** | ~10 minutes |
-| **Consensus** | Proof of Work (SHA-256) |
-| **Smallest Unit** | 1 hashi = 0.00000001 HSM |
+| Algorithm | SHA-256 (PoW) |
+| Max Supply | 21,000,000 HSM |
+| Block Reward | 50 HSM |
+| Smallest Unit | 1 hashi = 0.00000001 HSM |
+| P2P Port | 9333 |
+| RPC Port | 9332 |
+
+> Note: Block timing and difficulty are still stabilizing in this early phase.
 
 ---
 
 ## ⛏️ Mining
 
 ```bash
-# Start mining to your address
 ./hashium-cli generatetoaddress 1 "YOUR_ADDRESS"
-
-# Or mine continuously (100 blocks)
-./hashium-cli generatetoaddress 100 "YOUR_ADDRESS"
 ```
 
 ---
 
 ## 🔧 Build from Source
 
-### Prerequisites
-
-**macOS:**
+### macOS
 ```bash
 brew install cmake boost libevent sqlite miniupnpc libnatpmp berkeley-db@4 qt@6 qrencode
-```
-
-**Ubuntu/Debian:**
-```bash
-sudo apt-get install build-essential cmake libevent-dev libboost-dev \
-  libboost-filesystem-dev libsqlite3-dev libminiupnpc-dev libnatpmp-dev \
-  libdb++-dev qt6-base-dev qt6-tools-dev libqrencode-dev
-```
-
-### Build
-```bash
 git clone https://github.com/Hylium-crypto/Hashium.git
 cd Hashium
-
-cmake -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_GUI=ON -DBUILD_WALLET=ON
-cmake --build build -j$(nproc)
-
-# Binaries in build/bin/
-./build/bin/hashium-qt
+cmake -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_GUI=ON
+cmake --build build -j$(sysctl -n hw.ncpu)
 ```
+
+### Ubuntu/Debian
+```bash
+sudo apt-get install build-essential cmake libevent-dev libboost-dev \
+  libsqlite3-dev libminiupnpc-dev libdb++-dev qt6-base-dev
+git clone https://github.com/Hylium-crypto/Hashium.git
+cd Hashium
+cmake -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_GUI=ON
+cmake --build build -j$(nproc)
+```
+
+---
+
+## ⚠️ Disclaimer
+
+> **IMPORTANT:** This is **EXPERIMENTAL SOFTWARE** for educational purposes only.
+> 
+> - **NOT AN INVESTMENT** - no financial returns are promised
+> - **NO GUARANTEES** about value, functionality, or future
+> - You may **LOSE EVERYTHING**
+> - Use at your own risk
+>
+> **[Read Full Disclaimer](DISCLAIMER.md)**
 
 ---
 
@@ -133,58 +143,19 @@ cmake --build build -j$(nproc)
 
 ---
 
-## 🌐 Network
-
-| Parameter | Value |
-|-----------|-------|
-| P2P Port | 9333 |
-| RPC Port | 9332 |
-| Bech32 Prefix | `hyl` |
-| Genesis Date | December 27, 2025 |
-
----
-
-## 📖 Documentation
-
-- [Build Guide](doc/build-unix.md) - Detailed build instructions
-- [Mining Guide](doc/mining.md) - How to mine HSM
-- [RPC Commands](doc/commands.md) - Full command reference
-
----
-
-## ⚠️ Disclaimer
-
-> **IMPORTANT:** Hashium is **EXPERIMENTAL SOFTWARE** provided for educational purposes only.
-> 
-> - This is **NOT AN INVESTMENT** - no financial returns are promised or implied
-> - The developers make **NO GUARANTEES** about value, functionality, or future development
-> - You may **LOSE ALL VALUE** associated with HSM tokens
-> - Use at your own risk
->
-> **[Read Full Disclaimer](DISCLAIMER.md)**
-
----
-
 ## ⚖️ License
 
-Hashium is released under the [MIT License](COPYING).
+MIT License - See [COPYING](COPYING)
 
 ---
 
 ## 🔗 Links
 
-- **Website**: https://hashium-website.vercel.app
 - **GitHub**: https://github.com/Hylium-crypto/Hashium
 - **Releases**: https://github.com/Hylium-crypto/Hashium/releases
 
 ---
 
 <p align="center">
-  <b>Built with ❤️ on Bitcoin Core</b><br>
-  <i>Hashium - An Educational Blockchain Experiment</i>
+  <sub>⚠️ Experimental open-source project. Not financial advice. <a href="DISCLAIMER.md">Read Disclaimer</a></sub>
 </p>
-
-<p align="center">
-  <sub>⚠️ This is experimental software. Not financial advice. <a href="DISCLAIMER.md">Read Disclaimer</a></sub>
-</p>
-

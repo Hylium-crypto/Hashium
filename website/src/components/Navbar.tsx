@@ -36,13 +36,13 @@ const Navbar = () => {
                     </div>
 
                     {/* Desktop Navigation */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '40px' }} className="hidden md:flex">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }} className="hidden md:flex">
                         {[
-                            { name: 'Features', href: '#features' },
                             { name: 'Explorer', href: '#explorer' },
                             { name: 'Wallet', href: '#paper-wallet-section' },
                             { name: 'Payment', href: '#payment-request' },
                             { name: 'Mining', href: '#mining-calculator' },
+                            { name: 'Validate', href: '#address-validator' },
                             { name: 'Roadmap', href: '#roadmap' }
                         ].map((item) => (
                             <a

@@ -7,6 +7,7 @@ import Explorer from './components/Explorer';
 import PaperWallet from './components/PaperWallet';
 import PaymentRequest from './components/PaymentRequest';
 import MiningCalculator from './components/MiningCalculator';
+import AddressValidator from './components/AddressValidator';
 import Footer from './components/Footer';
 import './index.css';
 
@@ -28,6 +29,9 @@ function App() {
       </div>
       <div id="mining-calculator">
         <MiningCalculator />
+      </div>
+      <div id="address-validator">
+        <AddressValidator />
       </div>
       <Roadmap />
       <Footer />

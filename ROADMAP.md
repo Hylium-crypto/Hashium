@@ -4,11 +4,11 @@ This document outlines the development phases and milestones for Hashium.
 
 ---
 
-## Current Status: **Phase 1 - Foundation**
+## Current Status: **Phase 2 - Pre-Launch** 🚧
 
 ---
 
-## Phase 1: Foundation ✅ (Current)
+## Phase 1: Foundation ✅
 
 **Goal**: Establish a stable, well-documented codebase
 
@@ -19,7 +19,7 @@ This document outlines the development phases and milestones for Hashium.
 | Generate Genesis Blocks | ✅ Complete | All networks (main/test/regtest) |
 | Enable Modern Features | ✅ Complete | SegWit, Taproot from genesis |
 | Basic Documentation | ✅ Complete | README, WHITEPAPER, build docs |
-| Functional Tests | ✅ Complete | Hashium-specific test suite |
+| DGW Difficulty | ✅ Complete | Per-block difficulty adjustment |
 
 ---
 
@@ -29,51 +29,39 @@ This document outlines the development phases and milestones for Hashium.
 
 | Milestone | Status | Description |
 |-----------|--------|-------------|
-| Security Audit | 🔴 Not Started | Third-party code review |
-| Seed Node Deployment | 🟡 Pending | Bootstrap nodes for network |
-| Block Explorer | 🟡 In Progress | Basic stats, full explorer coming |
 | Wallet Releases | ✅ Complete | Win/Mac/Linux releases available |
 | Website Launch | ✅ Complete | https://hashium-website.vercel.app |
 | CI/CD Pipeline | ✅ Complete | Automated builds and tests |
+| Block Explorer | ✅ Basic | Search + stats, API pending |
+| Whitepaper | ✅ Complete | Technical documentation |
+| Seed Nodes | 🟡 In Progress | Need more community nodes |
+| Mining Pool | 🟡 Planned | Community pool coming |
 
 ---
 
-## Phase 3: Testnet Launch
+## Phase 3: Growth
 
-**Goal**: Public testing phase with community participation
+**Goal**: Expand the network and community
 
 | Milestone | Status | Description |
 |-----------|--------|-------------|
-| Testnet Genesis | ⏳ Planned | Launch public testnet |
-| Faucet | ⏳ Planned | Free testnet coins distribution |
-| Community Testing | ⏳ Planned | Bug bounty program |
-| Documentation | ⏳ Planned | User guides, tutorials |
+| Bitcointalk ANN | ⏳ Planned | Community announcement |
+| CoinGecko Listing | ⏳ Planned | Market data tracking |
+| Exchange Listings | ⏳ Planned | Trading pairs |
+| Discord/Telegram | ⏳ Planned | Community channels |
 
 ---
 
-## Phase 4: Mainnet Launch
-
-**Goal**: Production network launch
-
-| Milestone | Status | Description |
-|-----------|--------|-------------|
-| Final Audit | ⏳ Planned | Pre-mainnet security review |
-| Mainnet Genesis | ⏳ Planned | Official network launch |
-| Mining Pool Support | ⏳ Planned | Pool software compatibility |
-| Exchange Listings | ⏳ Planned | Trading pair availability |
-
----
-
-## Phase 5: Ecosystem Growth
+## Phase 4: Ecosystem
 
 **Goal**: Build a thriving ecosystem
 
 | Milestone | Status | Description |
 |-----------|--------|-------------|
 | Mobile Wallets | ⏳ Future | iOS/Android wallet apps |
-| Hardware Wallet Support | ⏳ Future | Ledger/Trezor integration |
+| Hardware Wallet | ⏳ Future | Ledger/Trezor integration |
 | Merchant Tools | ⏳ Future | Payment processing APIs |
-| Layer 2 Research | ⏳ Future | Lightning Network compatibility |
+| Layer 2 | ⏳ Future | Lightning Network |
 
 ---
 
@@ -81,19 +69,12 @@ This document outlines the development phases and milestones for Hashium.
 
 | Version | Date | Highlights |
 |---------|------|------------|
-| 0.1.0 | 2025-12-16 | Initial release, genesis blocks |
+| **1.8.0** | 2025-12-29 | ⚠️ **HARD FORK** - DGW difficulty, copyright fix |
+| 1.7.2 | 2025-12-29 | Block Explorer, checkpoint |
+| 1.7.1 | 2025-12-27 | Windows DLL fix |
+| 1.7.0 | 2025-12-24 | Initial release |
 
----
-
-## Contributing
-
-We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-**Priority Areas**:
-1. Documentation improvements
-2. Test coverage
-3. Cross-platform compatibility
-4. Performance optimization
+See [CHANGELOG.md](CHANGELOG.md) for full details.
 
 ---
 
@@ -103,9 +84,8 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 |--------|---------|
 | ✅ | Complete |
 | 🟡 | In Progress |
-| 🔴 | Not Started |
 | ⏳ | Planned |
 
 ---
 
-*Last updated: December 2025*
+*Last updated: December 29, 2025*

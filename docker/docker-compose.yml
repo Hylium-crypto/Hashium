@@ -1,0 +1,51 @@
+# Hashium Node - Docker Compose
+# Deploy a full Hashium node with RPC enabled
+
+version: '3.8'
+
+services:
+  hashium-node:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hashium-node
+    restart: unless-stopped
+
+    # Environment variables
+    environment:
+      - RPC_USER=${RPC_USER:-hashium}
+      - RPC_PASS=${RPC_PASS:-changeme123}
+
+    # Command with RPC settings
+    command: >
+      -printtoconsole -rpcuser=${RPC_USER:-hashium} -rpcpassword=${RPC_PASS:-changeme123} -rpcallowip=0.0.0.0/0 -rpcbind=0.0.0.0 -server=1 -txindex=1
+
+    # Port mappings
+    ports:
+      - "9333:9333" # P2P
+      - "9332:9332" # RPC
+
+    # Persistent data
+    volumes:
+      - hashium-data:/home/hashium/.hashium
+
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          cpus: '0.5'
+          memory: 1G
+
+    # Logging
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  hashium-data:
+    driver: local

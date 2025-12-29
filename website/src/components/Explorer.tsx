@@ -210,7 +210,7 @@ const Explorer = () => {
                 </form>
 
                 {/* Stats Grid */}
-                <div style={{
+                <div className="stats-grid animate-slide-up" style={{
                     display: 'grid',
                     gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
                     gap: '16px',
@@ -276,7 +276,7 @@ const Explorer = () => {
                     </div>
 
                     <div style={{ overflowX: 'auto' }}>
-                        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                        <table className="blocks-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
                             <thead>
                                 <tr style={{ background: '#0f172a' }}>
                                     <th style={{ padding: '16px 24px', textAlign: 'left', color: '#64748b', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase' }}>Height</th>

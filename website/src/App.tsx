@@ -2,6 +2,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Stats from './components/Stats';
 import Features from './components/Features';
+import About from './components/About';
 import Roadmap from './components/Roadmap';
 import Explorer from './components/Explorer';
 import PaperWallet from './components/PaperWallet';
@@ -18,6 +19,7 @@ function App() {
       <Hero />
       <Stats />
       <Features />
+      <About />
       <div id="explorer">
         <Explorer />
       </div>

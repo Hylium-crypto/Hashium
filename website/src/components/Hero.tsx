@@ -74,7 +74,7 @@ const Hero = () => {
                             fontSize: '13px',
                             letterSpacing: '0.02em'
                         }}>
-                            Network Active • v1.7.0
+                            Network Active • v1.8.0
                         </span>
                     </div>
 

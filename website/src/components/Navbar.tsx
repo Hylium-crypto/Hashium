@@ -2,8 +2,8 @@ import { Menu, X, Download } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 const navLinks = [
+    { name: 'Security', href: '#security' },
     { name: 'About', href: '#about' },
-    { name: 'Explorer', href: '#explorer' },
     { name: 'Wallet', href: '#paper-wallet-section' },
     { name: 'Mining', href: '#mining-calculator' },
     { name: 'Roadmap', href: '#roadmap' }

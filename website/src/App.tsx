@@ -1,5 +1,6 @@
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import Security from './components/Security';
 import Stats from './components/Stats';
 import Features from './components/Features';
 import About from './components/About';
@@ -17,6 +18,7 @@ function App() {
     <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
       <Navbar />
       <Hero />
+      <Security />
       <Stats />
       <Features />
       <About />

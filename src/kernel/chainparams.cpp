@@ -173,6 +173,10 @@ public:
         consensus.nMinimumChainWork = uint256::ZERO;                                                               // Will be updated as chain grows
         consensus.defaultAssumeValid = uint256{"000000000003bc2a4446bb84aadb57d1948db9fb45c218a985d82b1f7a9896b"}; // Block 12000
 
+        // Dark Gravity Wave activation - per-block difficulty adjustment
+        // All nodes must upgrade before this block!
+        consensus.DGWActivationHeight = 15000;
+
         /**
          * The message start string is designed to be unlikely to occur in normal data.
          * The characters are rarely used upper ASCII, not valid as UTF-8, and produce

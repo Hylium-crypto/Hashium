@@ -1,0 +1,35 @@
+# Docker Compose for Hashium Mining Pool
+# Uses NOMP (Node Open Mining Portal)
+
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: hashium-pool-redis
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+
+  pool:
+    image: node:18-alpine
+    container_name: hashium-pool
+    restart: unless-stopped
+    depends_on:
+      - redis
+    working_dir: /app
+    volumes:
+      - ./nomp:/app
+      - ./hashium-pool.json:/app/coins/hashium.json:ro
+      - ./pool-config.json:/app/pool_configs/hashium.json:ro
+    ports:
+      - "3333:3333" # Low diff stratum
+      - "3334:3334" # High diff stratum
+      - "8080:80" # Web UI
+    environment:
+      - REDIS_HOST=redis
+    command: >
+      sh -c "npm install && node init.js"
+
+volumes:
+  redis-data:

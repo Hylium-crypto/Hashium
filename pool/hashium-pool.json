@@ -1,0 +1,27 @@
+{
+    "name": "Hashium",
+    "symbol": "HSM",
+    "algorithm": "sha256",
+    "peerMagic": "f9beb4d9",
+    "peerMagicMessageHeader": "f9beb4d9",
+    "mainnet": {
+        "bech32": "hyl",
+        "bip32": {
+            "public": "0488b21e",
+            "private": "0488ade4"
+        },
+        "pubKeyHash": "26",
+        "scriptHash": "35",
+        "wif": "80"
+    },
+    "testnet": {
+        "bech32": "thyl",
+        "bip32": {
+            "public": "043587cf",
+            "private": "04358394"
+        },
+        "pubKeyHash": "6f",
+        "scriptHash": "c4",
+        "wif": "ef"
+    }
+}

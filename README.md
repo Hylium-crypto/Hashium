@@ -16,6 +16,9 @@
   <a href="https://opensource.org/licenses/MIT">
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
   </a>
+  <a href="https://discord.gg/YOUR_DISCORD">
+    <img src="https://img.shields.io/badge/Discord-Join-7289da" alt="Discord">
+  </a>
 </p>
 
 > **⚠️ WARNING:** This is an experimental open-source project for educational purposes only. 
@@ -61,41 +64,38 @@ xattr -cr Hashium-*-macOS
 
 ---
 
-## 📊 Project Status
-
-> **⚠️ Early Development Phase**
-
-| Status | Details |
-|--------|---------|
-| Network | **Very small** (~1-5 nodes) |
-| Stage | Experimental/Testing |
-| Blocks | Mining active |
-| Peers | Limited - need more nodes! |
-
-**This is a new project. The network is small and experimental.**
-
----
-
-## 🔧 Technical Specs
+## 📊 Network Status
 
 | Property | Value |
 |----------|-------|
 | Algorithm | SHA-256 (PoW) |
 | Max Supply | 21,000,000 HSM |
 | Block Reward | 50 HSM |
+| Block Time | ~10 minutes |
+| **Difficulty Adjustment** | **DGW (per-block)** |
 | Smallest Unit | 1 hashi = 0.00000001 HSM |
 | P2P Port | 9333 |
 | RPC Port | 9332 |
 
-> Note: Block timing and difficulty are still stabilizing in this early phase.
+### Dark Gravity Wave (DGW)
+
+Since v1.8.0, Hashium uses **Dark Gravity Wave** for difficulty adjustment:
+- Adjusts difficulty every block (not every 2016 blocks)
+- Uses 24-block rolling average
+- Responds quickly to hashrate changes
+- Maximum ±3x change per block
 
 ---
 
 ## ⛏️ Mining
 
+### Solo Mining (CPU)
 ```bash
 ./hashium-cli generatetoaddress 1 "YOUR_ADDRESS"
 ```
+
+### Pool Mining
+Coming soon! Check [Discord](https://discord.gg/YOUR_DISCORD) for updates.
 
 ---
 
@@ -122,6 +122,27 @@ cmake --build build -j$(nproc)
 
 ---
 
+## 📁 Data Directory
+
+| Platform | Location |
+|----------|----------|
+| macOS | `~/Library/Application Support/Hashium/` |
+| Linux | `~/.hashium/` |
+| Windows | `%APPDATA%\Hashium\` |
+
+---
+
+## 🔗 Links
+
+| Resource | Link |
+|----------|------|
+| **Website** | [hashium-website.vercel.app](https://hashium-website.vercel.app) |
+| **Releases** | [github.com/Hylium-crypto/Hashium/releases](https://github.com/Hylium-crypto/Hashium/releases) |
+| **Changelog** | [CHANGELOG.md](CHANGELOG.md) |
+| **Discord** | Coming soon |
+
+---
+
 ## ⚠️ Disclaimer
 
 > **IMPORTANT:** This is **EXPERIMENTAL SOFTWARE** for educational purposes only.
@@ -135,25 +156,9 @@ cmake --build build -j$(nproc)
 
 ---
 
-## 📁 Data Directory
-
-| Platform | Location |
-|----------|----------|
-| macOS | `~/Library/Application Support/Hashium/` |
-| Linux | `~/.hashium/` |
-
----
-
 ## ⚖️ License
 
 MIT License - See [COPYING](COPYING)
-
----
-
-## 🔗 Links
-
-- **GitHub**: https://github.com/Hylium-crypto/Hashium
-- **Releases**: https://github.com/Hylium-crypto/Hashium/releases
 
 ---
 

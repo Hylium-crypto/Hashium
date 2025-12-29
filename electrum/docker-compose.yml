@@ -1,0 +1,29 @@
+# Docker Compose for Hashium Electrum Server
+# Runs ElectrumX for light wallet support
+
+version: '3.8'
+
+services:
+  electrumx:
+    image: lukechilds/electrumx:latest
+    container_name: hashium-electrumx
+    restart: unless-stopped
+    environment:
+      - COIN=Bitcoin # Will need custom fork for Hashium
+      - NET=mainnet
+      - DAEMON_URL=http://hashium:Code@21342033@host.docker.internal:9332
+      - SERVICES=tcp://:50001,ssl://:50002,rpc://
+      - HOST=0.0.0.0
+      - PEER_DISCOVERY=self
+      - MAX_SESSIONS=200
+      - CACHE_MB=400
+    ports:
+      - "50001:50001"
+      - "50002:50002"
+    volumes:
+      - electrumx-data:/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  electrumx-data:

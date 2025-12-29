@@ -168,10 +168,10 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].period = 2016;
 
         // Hashium network checkpoints for faster initial sync
-        // Block 12000: 000000000003bc2a4446bb84aadb57d1948db9fb45c218a985d82b1f7a9896b
+        // Block 12000 hash for assumeValid
         // This allows new nodes to skip script validation up to this block
-        consensus.nMinimumChainWork = uint256::ZERO;                                                               // Will be updated as chain grows
-        consensus.defaultAssumeValid = uint256{"000000000003bc2a4446bb84aadb57d1948db9fb45c218a985d82b1f7a9896b"}; // Block 12000
+        consensus.nMinimumChainWork = uint256::ZERO;                                                                // Will be updated as chain grows
+        consensus.defaultAssumeValid = uint256{"0000000000003bc2a4446bb84aadb57d1948db9fb45c218a985d82b1f7a9896b"}; // Block 12000 (64 chars)
 
         // Dark Gravity Wave activation - per-block difficulty adjustment
         // All nodes must upgrade before this block!

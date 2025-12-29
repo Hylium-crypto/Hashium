@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Search, Blocks, Hash, Activity, Clock, Zap, TrendingUp, Box, ArrowRight } from 'lucide-react';
 
 interface NetworkStats {
@@ -87,14 +87,18 @@ const Explorer = () => {
         return supply.toLocaleString();
     };
 
-    // Generate fake recent blocks for display
-    const recentBlocks = Array.from({ length: 10 }, (_, i) => ({
-        height: stats.blockHeight - i,
-        hash: `0000${Math.random().toString(16).slice(2, 10)}...${Math.random().toString(16).slice(2, 10)}`,
-        txCount: Math.floor(Math.random() * 5) + 1,
-        time: new Date(Date.now() - i * 600000).toLocaleTimeString(),
-        size: Math.floor(Math.random() * 2000) + 250
-    })).filter(b => b.height >= 0);
+    // Generate stable recent blocks for display (no Math.random during render)
+    const recentBlocks = useMemo(() => {
+        if (stats.blockHeight === 0) return [];
+        return Array.from({ length: 10 }, (_, i) => ({
+            height: stats.blockHeight - i,
+            hash: `0000000000${(stats.blockHeight - i).toString(16).padStart(8, '0')}...${((stats.blockHeight - i) * 7).toString(16).padStart(8, '0')}`,
+            txCount: ((stats.blockHeight - i) % 5) + 1,
+            time: `${10 * i} min ago`,
+            size: 250 + ((stats.blockHeight - i) % 20) * 100
+        })).filter(b => b.height >= 0);
+    }, [stats.blockHeight]);
+
 
     return (
         <div id="explorer" style={{

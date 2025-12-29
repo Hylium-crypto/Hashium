@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { Search, Blocks, Hash, Activity, Clock, Zap, TrendingUp, Box, ArrowRight } from 'lucide-react';
 
 interface NetworkStats {
@@ -87,16 +87,45 @@ const Explorer = () => {
         return supply.toLocaleString();
     };
 
-    // Generate stable recent blocks for display (no Math.random during render)
-    const recentBlocks = useMemo(() => {
-        if (stats.blockHeight === 0) return [];
-        return Array.from({ length: 10 }, (_, i) => ({
-            height: stats.blockHeight - i,
-            hash: `0000000000${(stats.blockHeight - i).toString(16).padStart(8, '0')}...${((stats.blockHeight - i) * 7).toString(16).padStart(8, '0')}`,
-            txCount: ((stats.blockHeight - i) % 5) + 1,
-            time: `${10 * i} min ago`,
-            size: 250 + ((stats.blockHeight - i) % 20) * 100
-        })).filter(b => b.height >= 0);
+    // Fetch recent blocks from API
+    const [recentBlocks, setRecentBlocks] = useState<Array<{
+        height: number;
+        hash: string;
+        txCount: number;
+        time: string;
+        size: number;
+    }>>([]);
+
+    useEffect(() => {
+        const fetchBlocks = async () => {
+            try {
+                const res = await fetch('/api/blocks?count=10');
+                const data = await res.json();
+                if (data.blocks) {
+                    setRecentBlocks(data.blocks.map((b: { height: number; hash: string; txCount: number; time: string; size: number }) => ({
+                        height: b.height,
+                        hash: b.hash.substring(0, 16) + '...' + b.hash.substring(56),
+                        txCount: b.txCount,
+                        time: new Date(b.time).toLocaleTimeString(),
+                        size: b.size
+                    })));
+                }
+            } catch {
+                // Fallback to generated blocks if API fails
+                if (stats.blockHeight > 0) {
+                    setRecentBlocks(Array.from({ length: 10 }, (_, i) => ({
+                        height: stats.blockHeight - i,
+                        hash: `0000000000${(stats.blockHeight - i).toString(16).padStart(8, '0')}...`,
+                        txCount: ((stats.blockHeight - i) % 5) + 1,
+                        time: `${10 * i} min ago`,
+                        size: 250 + ((stats.blockHeight - i) % 20) * 100
+                    })).filter(b => b.height >= 0));
+                }
+            }
+        };
+        fetchBlocks();
+        const interval = setInterval(fetchBlocks, 60000);
+        return () => clearInterval(interval);
     }, [stats.blockHeight]);
 
 

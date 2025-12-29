@@ -167,9 +167,11 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].threshold = 1815;          // 90%
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].period = 2016;
 
-        // Fresh network: start from genesis with no accumulated work assumed.
-        consensus.nMinimumChainWork = uint256::ZERO;
-        consensus.defaultAssumeValid = uint256::ZERO;
+        // Hashium network checkpoints for faster initial sync
+        // Block 12000: 000000000003bc2a4446bb84aadb57d1948db9fb45c218a985d82b1f7a9896b
+        // This allows new nodes to skip script validation up to this block
+        consensus.nMinimumChainWork = uint256::ZERO;                                                               // Will be updated as chain grows
+        consensus.defaultAssumeValid = uint256{"000000000003bc2a4446bb84aadb57d1948db9fb45c218a985d82b1f7a9896b"}; // Block 12000
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.

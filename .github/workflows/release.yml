@@ -44,7 +44,7 @@ jobs:
           tar -czvf "Hashium-${{ github.ref_name }}-Linux.tar.gz" "Hashium-${{ github.ref_name }}-Linux"
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: linux
           path: Hashium-${{ github.ref_name }}-Linux.tar.gz
@@ -85,7 +85,7 @@ jobs:
           tar -czvf "Hashium-${{ github.ref_name }}-macOS.tar.gz" "Hashium-${{ github.ref_name }}-macOS"
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: macos
           path: Hashium-${{ github.ref_name }}-macOS.tar.gz
@@ -211,7 +211,7 @@ jobs:
           zip -r "Hashium-${{ github.ref_name }}-Windows.zip" "Hashium-${{ github.ref_name }}-Windows"
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: windows
           path: Hashium-${{ github.ref_name }}-Windows.zip
